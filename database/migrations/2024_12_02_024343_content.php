@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('parent_id')->nullable( true);
             $table->foreign('parent_id')->references('id')->on('content');
 
+            $table->string( 'app')->nullable(false);
             $table->unsignedBigInteger('user_id')->index()->nullable( true);
             $table->foreign('user_id')
                 ->references('id')

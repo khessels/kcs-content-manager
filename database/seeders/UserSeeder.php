@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
     {
         $users                  = [];
 
-        $user['name']           = 'vendifill';
+        $user['name']           = 'Kees Hessels';
         $user['active']         = 'YES';
         $user['email_verified_at'] = Carbon::now()->toIso8601String();
         $user['email']          = 'kees.hessels@gmail.com';
@@ -29,7 +29,7 @@ class UserSeeder extends Seeder
 
         $users[]                = $user;
 
-        $user['name']           = 'select finance';
+        $user['name']           = 'Daymiendo';
         $user['active']         = 'YES';
         $user['email_verified_at'] = Carbon::now()->toIso8601String();
         $user['email']          = 'info@selectfinance.nl';

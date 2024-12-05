@@ -15,11 +15,11 @@ Route::get('/management/content', function ( Request $request) {
     if( empty( $request->header('x-app'))){
         return response()->json( [], 300);
     }
-    $user = User::where( 'name', $request->header('x-app'))->first();
-    if( empty($user)){
-        return response()->json( [], 301);
+    if( empty( $request->header('x-token'))){
+        return response()->json( [], 300);
     }
-    $content = Content::where('user_id', $user->id)->get();
+
+    $content = Content::where('app', $request->header('x-app'))->get();
     return response()->json( $content);
 });
 
@@ -29,10 +29,7 @@ Route::get('/production/content', function ( Request $request) {
     if( empty( $request->header('x-app'))){
         return response()->json( [], 300);
     }
-    $user = User::where( 'name', $request->header('x-app'))->first();
-    if( empty($user)){
-        return response()->json( [], 301);
-    }
-    $content = Content::where('user_id', $user->id)->get();
+
+    $content = Content::where('user_id', $request->header('x-app'))->get();
     return response()->json( $content);
 });

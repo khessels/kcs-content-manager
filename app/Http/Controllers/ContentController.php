@@ -17,19 +17,15 @@ class ContentController extends Controller
         if( empty( $request->header('x-app'))){
             return response()->json( [], 300);
         }
-        $user = User::where( 'name', $request->header('x-app'))->first();
-        if( empty($user)){
-            return response()->json( [], 301);
-        }
 
         $expression = $request->all();
-        $expression[ 'user_id' ] = $user->id;
+        $expression[ 'app' ] = $request->header('x-app');
         if( empty( $expression[ 'mimetype' ])){
             $expression[ 'mimetype' ] = 'text/plain';
         }
         $query = Content::query();
         $query = $query->where( 'key', $expression['key'] );
-        $query = $query->where( 'user_id', 1 );
+            $query = $query->where( 'app', $request->header('x-app') );
         if( !empty( $expression['page'] ) ){
             $query = $query->where( 'page', $expression['page'] );
         }

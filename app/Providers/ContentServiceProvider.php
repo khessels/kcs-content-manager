@@ -18,8 +18,8 @@ class ContentServiceProvider extends ServiceProvider
     public function register(): void
     {
         // get all the content from the server and populate redis
-        $items = DB::table("content")->where('status', 'active')->get();
         try {
+            $items = DB::table("content")->where('status', 'active')->get();
             foreach ($items as $item) {
                 $key = $item->key;
                 if ($item->page != null) {
