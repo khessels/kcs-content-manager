@@ -21,6 +21,8 @@ class DatabaseSeeder extends Seeder
         ]);
         $seeds = [
             ContentSeeder::class,
+            PermissionsSeeder::class,
+            UserSeeder::class,
         ];
         array_map(fn($s) => $this->call($s), $seeds);
     }

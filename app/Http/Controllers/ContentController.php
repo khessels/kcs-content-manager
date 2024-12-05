@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Content;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,8 +14,16 @@ use Illuminate\View\View;
 class ContentController extends Controller
 {
     public function add( Request $request, $language){
+        if( empty( $request->header('x-app'))){
+            return response()->json( [], 300);
+        }
+        $user = User::where( 'name', $request->header('x-app'))->first();
+        if( empty($user)){
+            return response()->json( [], 301);
+        }
+
         $expression = $request->all();
-        $expression[ 'user_id' ] = 1;
+        $expression[ 'user_id' ] = $user->id;
         if( empty( $expression[ 'mimetype' ])){
             $expression[ 'mimetype' ] = 'text/plain';
         }
