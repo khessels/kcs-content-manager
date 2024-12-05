@@ -49,6 +49,7 @@ class Content extends Model
 	protected $fillable = [
 		'parent_id',
 		'user_id',
+        'app',
 		'status',
 		'page',
 		'language',

@@ -13,6 +13,24 @@ use Illuminate\View\View;
 
 class ContentController extends Controller
 {
+    public function listProduction( Request $request)
+    {
+        if( empty( $request->header('x-app'))){
+            return response()->json( [], 300);
+        }
+
+        $content = Content::where('app', $request->header('x-app'))->get();
+        return response()->json( $content);
+
+    }
+    public function listManagement( Request $request)
+    {
+        if( empty( $request->header('x-app'))){
+            return response()->json( [], 300);
+        }
+        $content = Content::where('app', $request->header('x-app'))->get();
+        return response()->json( $content);
+    }
     public function add( Request $request, $language){
         if( empty( $request->header('x-app'))){
             return response()->json( [], 300);
@@ -25,15 +43,12 @@ class ContentController extends Controller
         }
         $query = Content::query();
         $query = $query->where( 'key', $expression['key'] );
-            $query = $query->where( 'app', $request->header('x-app') );
+        $query = $query->where( 'app', $request->header('x-app') );
         if( !empty( $expression['page'] ) ){
             $query = $query->where( 'page', $expression['page'] );
         }
         if( !empty( $expression['language'] ) ){
             $query = $query->where( 'language', $expression['language'] );
-        }else{
-            $query = $query->where( 'language', $language );
-            $expression['language'] = $language;
         }
         $model = $query->first();
         if( empty( $model ) ){

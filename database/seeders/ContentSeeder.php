@@ -18,28 +18,64 @@ class ContentSeeder extends Seeder
         $contents               = [];
 
         $content['user_id']     = 1;
-        $content['key']         = 'english';
+        $content['app']         = 'vendifill';
+        $content['key']         = 'en';
         $content['value']       = 'English';
         $content['language']    = 'en';
         $content['mimetype']    = 'text/plain';
         $contents[] = $content;
 
         $content['user_id']     = 1;
-        $content['key']         = 'spanish';
-        $content['value']       = 'Spanish';
+        $content['app']         = 'vendifill';
+        $content['key']         = 'es';
+        $content['value']       = 'Español';
         $content['language']    = 'en';
         $content['mimetype']    = 'text/plain';
         $contents[] = $content;
 
         $content['user_id']     = 1;
-        $content['key']         = 'english';
-        $content['value']       = 'Inglis';
+        $content['app']         = 'vendifill';
+        $content['key']         = 'en';
+        $content['value']       = 'English';
         $content['language']    = 'es';
         $content['mimetype']    = 'text/plain';
         $contents[] = $content;
 
         $content['user_id']     = 1;
-        $content['key']         = 'spanish';
+        $content['app']         = 'vendifill';
+        $content['key']         = 'es';
+        $content['value']       = 'Español';
+        $content['language']    = 'es';
+        $content['mimetype']    = 'text/plain';
+        $contents[] = $content;
+
+        $content['user_id']     = 2;
+        $content['app']         = 'select finance';
+        $content['key']         = 'en';
+        $content['value']       = 'English';
+        $content['language']    = 'en';
+        $content['mimetype']    = 'text/plain';
+        $contents[] = $content;
+
+        $content['user_id']     = 2;
+        $content['app']         = 'select finance';
+        $content['key']         = 'es';
+        $content['value']       = 'Español';
+        $content['language']    = 'en';
+        $content['mimetype']    = 'text/plain';
+        $contents[] = $content;
+
+        $content['user_id']     = 2;
+        $content['app']         = 'select finance';
+        $content['key']         = 'en';
+        $content['value']       = 'English';
+        $content['language']    = 'es';
+        $content['mimetype']    = 'text/plain';
+        $contents[] = $content;
+
+        $content['user_id']     = 2;
+        $content['app']         = 'select finance';
+        $content['key']         = 'es';
         $content['value']       = 'Español';
         $content['language']    = 'es';
         $content['mimetype']    = 'text/plain';

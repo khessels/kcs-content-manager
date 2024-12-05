@@ -20,9 +20,9 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
         $seeds = [
-            ContentSeeder::class,
             PermissionsSeeder::class,
             UserSeeder::class,
+            ContentSeeder::class,
         ];
         array_map(fn($s) => $this->call($s), $seeds);
     }
