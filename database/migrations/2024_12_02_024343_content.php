@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string( 'page')->nullable(true);
             $table->string( 'language')->nullable(true);
             $table->string( 'key')->nullable(false);
-            $table->text( 'value')->nullable(true);
+            $table->binary( 'value')->nullable(true);
             $table->json( 'data')->nullable(true);
             $table->string( 'mimetype')->nullable(false)->default('text/plain');
             $table->dateTime('publish_at')->nullable(true);
