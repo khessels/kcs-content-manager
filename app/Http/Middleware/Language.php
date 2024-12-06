@@ -18,14 +18,10 @@ class Language
      */
     public function handle(Request $request, Closure $next): Response
     {
-        //die('Hello');
         $language = Session::get('language');
-        $a = app()->getLocale();
         if( ! empty( $language) && $language !== App::getLocale()) {
-            //App::setLocale( $language);
             app()->setLocale( $language);
         }
-        $b = app()->getLocale();
         return $next( $request);
     }
 }

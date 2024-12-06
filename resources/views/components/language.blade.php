@@ -1,7 +1,14 @@
 <form action="{{ route('post.language.switch') }}" method="POST">
     @csrf
     <select name="language" onchange="this.form.submit()">
-        <option value="en" {{ app()->getLocale() === 'en' ? 'selected' : ''}}>@c(['key' => 'english'])</option>
-        <option value="es" {{ app()->getLocale() === 'es' ? 'selected' : ''}}>@c(['key' => 'spanish'])</option>
+        @foreach( config('app.available_locales') as $locale)
+            @php
+                $selected = '';
+                if( app()->getLocale() === $locale){
+                    $selected = 'selected';
+                }
+            @endphp
+            <option value="{{ $locale }}" {{ $selected }}>@c(['key' => $locale ])</option>
+        @endforeach
     </select>
 </form>

@@ -8,11 +8,20 @@ use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\View\View;
 
 class ContentController extends Controller
 {
+    public function view(): View
+    {
+        $content = Content::all();
+        return view('content')->with('content', $content);
+    }
+
     public function listProduction( Request $request)
     {
         if( empty( $request->header('x-app'))){
@@ -21,7 +30,6 @@ class ContentController extends Controller
 
         $content = Content::where('app', $request->header('x-app'))->get();
         return response()->json( $content);
-
     }
     public function listManagement( Request $request)
     {
@@ -56,5 +64,28 @@ class ContentController extends Controller
             $content->save();
         }
         return response()->noContent();
+    }
+    public static function translate( $expression)
+    {
+        $redisKey = $expression[ 'key'];
+        if( isset( $expression[ 'page'])) {
+            $redisKey .= '.' . $expression[ 'page'];
+        }
+        if(! isset( $expression[ 'language'])) {
+            $redisKey .= '.' . Lang::locale();
+            $expression[ 'language'] = Lang::locale();
+        }
+        $value = Redis::get( config( 'kcs-content-manager.app' ) . '.' . $redisKey);
+        if ( $value === null || $value === false ) {
+            $response = Http::withHeaders([
+                'Authentication' => 'bearer ' . config( 'kcs-content-manager.token' ),
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+                'x-app' => config( 'kcs-content-manager.app' )])
+                ->post( 'http://kcs-content-manager.local/api/management/content/' . Lang::locale(), $expression);
+
+            return ! isset( $expression[ 'default']) ? $expression[ 'key'] : $expression[ 'default'];
+        }
+        return $value;
     }
 }
