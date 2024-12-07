@@ -18,6 +18,8 @@ class ContentSeeder extends Seeder
         $contents               = [];
 
         $content['app']         = 'vendifill';
+        $content['env']         = 'production';
+        $content['env_source']  = 'seed';
         $content['key']         = 'en';
         $content['value']       = 'English';
         $content['language']    = 'en';
@@ -25,6 +27,8 @@ class ContentSeeder extends Seeder
         $contents[] = $content;
 
         $content['app']         = 'vendifill';
+        $content['env']         = 'production';
+        $content['env_source']  = 'seed';
         $content['key']         = 'es';
         $content['value']       = 'Español';
         $content['language']    = 'en';
@@ -32,6 +36,8 @@ class ContentSeeder extends Seeder
         $contents[] = $content;
 
         $content['app']         = 'vendifill';
+        $content['env']         = 'production';
+        $content['env_source']  = 'seed';
         $content['key']         = 'en';
         $content['value']       = 'English';
         $content['language']    = 'es';
@@ -39,6 +45,8 @@ class ContentSeeder extends Seeder
         $contents[] = $content;
 
         $content['app']         = 'vendifill';
+        $content['env']         = 'production';
+        $content['env_source']  = 'seed';
         $content['key']         = 'es';
         $content['value']       = 'Español';
         $content['language']    = 'es';
@@ -46,6 +54,8 @@ class ContentSeeder extends Seeder
         $contents[] = $content;
 
         $content['app']         = 'select finance';
+        $content['env']         = 'production';
+        $content['env_source']  = 'seed';
         $content['key']         = 'en';
         $content['value']       = 'English';
         $content['language']    = 'en';
@@ -53,6 +63,8 @@ class ContentSeeder extends Seeder
         $contents[] = $content;
 
         $content['app']         = 'select finance';
+        $content['env']         = 'production';
+        $content['env_source']  = 'seed';
         $content['key']         = 'es';
         $content['value']       = 'Español';
         $content['language']    = 'en';
@@ -61,6 +73,8 @@ class ContentSeeder extends Seeder
 
         $content['app']         = 'select finance';
         $content['key']         = 'en';
+        $content['env']         = 'production';
+        $content['env_source']  = 'seed';
         $content['value']       = 'English';
         $content['language']    = 'es';
         $content['mimetype']    = 'text/plain';
@@ -68,6 +82,8 @@ class ContentSeeder extends Seeder
 
         $content['app']         = 'select finance';
         $content['key']         = 'es';
+        $content['env']         = 'production';
+        $content['env_source']  = 'seed';
         $content['value']       = 'Español';
         $content['language']    = 'es';
         $content['mimetype']    = 'text/plain';

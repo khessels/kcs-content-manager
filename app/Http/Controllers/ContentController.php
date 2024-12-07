@@ -39,7 +39,7 @@ class ContentController extends Controller
         $content = Content::where('app', $request->header('x-app'))->get();
         return response()->json( $content);
     }
-    public function add( Request $request, $language){
+    public function addManagement( Request $request, $language){
         if( empty( $request->header('x-app'))){
             return response()->json( [], 300);
         }
@@ -49,6 +49,7 @@ class ContentController extends Controller
         $expression = $request->all();
         $expression[ 'app' ] = $request->header('x-app');
         $expression[ 'dev' ] = $request->header('x-dev');
+        $expression[ 'dev_source' ] = 'local';
         if( empty( $expression[ 'mimetype' ])){
             $expression[ 'mimetype' ] = 'text/plain';
         }

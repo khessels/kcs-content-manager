@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string( 'page')->nullable(true);
             $table->string( 'language')->nullable(true);
             $table->string( 'key')->nullable(false);
-            $table->binary( 'value')->nullable(true);
+            $table->text( 'value')->nullable(true);
             $table->json( 'data')->nullable(true);
             $table->string( 'mimetype')->nullable(false)->default('text/plain');
             $table->enum( 'env', ['local','production'])->nullable(false)->default('local');
