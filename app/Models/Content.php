@@ -57,6 +57,7 @@ class Content extends Model
 		'key',
 		'value',
         'env',
+        'env_source',
 		'data',
 		'mimetype',
 		'publish_at',
