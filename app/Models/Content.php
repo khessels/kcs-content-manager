@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $key
  * @property string|null $value
  * @property array|null $data
+ * @property string $env
  * @property string $mimetype
  * @property Carbon|null $publish_at
  * @property Carbon|null $expire_at
@@ -55,6 +56,7 @@ class Content extends Model
 		'language',
 		'key',
 		'value',
+        'env',
 		'data',
 		'mimetype',
 		'publish_at',

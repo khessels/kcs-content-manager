@@ -30,6 +30,8 @@ return new class extends Migration
             $table->binary( 'value')->nullable(true);
             $table->json( 'data')->nullable(true);
             $table->string( 'mimetype')->nullable(false)->default('text/plain');
+            $table->enum( 'env', ['local','production'])->nullable(false)->default('local');
+            $table->string( 'env_source')->nullable(false)->default('unknown');
             $table->dateTime('publish_at')->nullable(true);
             $table->dateTime('expire_at')->nullable(true);
 

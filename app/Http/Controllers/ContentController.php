@@ -43,9 +43,12 @@ class ContentController extends Controller
         if( empty( $request->header('x-app'))){
             return response()->json( [], 300);
         }
-
+        if( empty( $request->header('x-dev'))){
+            return response()->json( [], 300);
+        }
         $expression = $request->all();
         $expression[ 'app' ] = $request->header('x-app');
+        $expression[ 'dev' ] = $request->header('x-dev');
         if( empty( $expression[ 'mimetype' ])){
             $expression[ 'mimetype' ] = 'text/plain';
         }
@@ -81,6 +84,7 @@ class ContentController extends Controller
                 'Authentication' => 'bearer ' . config( 'kcs-content-manager.token' ),
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
+                'x-dev' => config( 'kcs-content-manager.dev'),
                 'x-app' => config( 'kcs-content-manager.app' )])
                 ->post( 'http://kcs-content-manager.local/api/management/content/' . Lang::locale(), $expression);
 

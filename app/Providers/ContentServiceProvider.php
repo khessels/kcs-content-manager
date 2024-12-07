@@ -29,7 +29,9 @@ class ContentServiceProvider extends ServiceProvider
                 if ($item->language != null) {
                     $key .= '.' . $item->language;
                 }
-                Redis::set( $app . '.' . $key, $item->value);
+                if( $item->value != null) {
+                    Redis::set($app . '.' . $key, $item->value);
+                }
             }
         }catch( \Exception $e ) {
             error_log($e->getMessage());
