@@ -48,8 +48,8 @@ class ContentController extends Controller
         }
         $expression = $request->all();
         $expression[ 'app' ] = $request->header('x-app');
-        $expression[ 'dev' ] = $request->header('x-dev');
-        $expression[ 'dev_source' ] = 'local';
+        $expression[ 'env_source' ] = $request->header('x-dev');
+        $expression[ 'env' ] = 'local';
         if( empty( $expression[ 'mimetype' ])){
             $expression[ 'mimetype' ] = 'text/plain';
         }
