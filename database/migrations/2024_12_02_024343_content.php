@@ -34,6 +34,7 @@ return new class extends Migration
             $table->string( 'env_source')->nullable(false)->default('unknown');
             $table->dateTime('publish_at')->nullable(true);
             $table->dateTime('expire_at')->nullable(true);
+            $table->dateTime('last_seen_at')->nullable(true);
 
             $table->timestamps();
         });

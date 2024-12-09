@@ -10,7 +10,7 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
+{{--        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.9.2/contents.css" integrity="sha512-RCEu7hTdXyPKGzPkCoy1/RiZh7fVrwzakfBOrd1NxgpaCO9NLDPH1zt2w3ZTUpOBbkOa1m68pCMHzKbgxPe/Wg==" crossorigin="anonymous" referrerpolicy="no-referrer" />--}}
         <!-- Scripts -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
@@ -19,7 +19,8 @@
         <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
         <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
         <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
-
+{{--        <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.9.2/ckeditor.js" integrity="sha512-OF6VwfoBrM/wE3gt0I/lTh1ElROdq3etwAquhEm2YI45Um4ird+0ZFX1IwuBDBRufdXBuYoBb0mqXrmUA2VnOA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>--}}
+{{--        <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.9.2/adapters/jquery.js" integrity="sha512-w0+LxZnucbeltSOD7Xnox6WFUSL/2jEoWH6rNMGDu1MSO2N2DxQjpLcFHsIvyHIqSxI3WDgm5jUr3OaRum6eTQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>--}}
         <style>
             .btn-group-xs > .btn, .btn-xs {
                 padding: .25rem .4rem;

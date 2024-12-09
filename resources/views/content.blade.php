@@ -10,13 +10,13 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     {{__('With selected')}}
-                    <select>
+                    <select id="sel_actions">
                         <option value="" selected>{{__('Select')}}</option>
                         <option value="delete">{{__('Delete')}}</option>
-                        <option value="expire">{{__('Expire')}}</option>
-                        <option value="publish">{{__('Publish')}}</option>
+                        <option value="expire" disabled>{{__('Expire')}}</option>
+                        <option value="publish" disabled>{{__('Publish')}}</option>
                     </select>
-                    <button type="button" class="btn btn-primary disabled">{{__('Apply')}}</button>
+                    <button id="btn_action" type="button" class="btn btn-primary disabled">{{__('Apply')}}</button>
                     <table id="tbl_content" class="table table-striped" style="width:100%; font-size:80%">
                         <thead>
                         <tr>
@@ -39,7 +39,7 @@
                         <tbody>
                         @foreach( $content as $item)
                             <tr>
-                                <td><input type="checkbox" value="{{ $item->id }}"> </td>
+                                <td><input type="checkbox" value="{{ $item->id }}" > </td>
                                 <td>{{ $item->app ?? '-'}}</td>
                                 <td>{{ $item->id ?? '-'}}</td>
                                 <td>{{ $item->parent_id ?? '-'}}</td>
@@ -48,14 +48,15 @@
                                 <td>{{ $item->page ?? '-'}}</td>
                                 <td>{{ $item->language ?? '-'}}</td>
                                 <td>
-                                    <a href="javascript:void(0)"
-                                       style="text-decoration: underline"
-                                       class="key"
-                                        data-id="{{ $item->id }}" data-mimetype="{{ $item->mimetype }}" data-value="{{ $item->value }}">
-                                        {{ $item->key}}
-                                    </a>
+                                    {{ $item->key}}
                                 </td>
-                                <td>{{ $item->value ?? '-'}}</td>
+                                <td>
+                                    @if( $item->mimetype === 'text/plain')
+                                        <input type="text" class="value" data-id="{{ $item->id }}" data-mimetype="text/plain" data-value="{{ $item->value }}" value="{{ $item->value}}">
+                                    @else
+                                        <textarea class="value editor" >{{ $item->value ?? '-'}}</textarea>
+                                    @endif
+                                </td>
                                 <td>{{ $item->mimetype ?? '-'}}</td>
                                 <td>{{ $item->publish_at ?? '-'}}</td>
                                 <td>{{ $item->expire_at ?? '-'}}</td>
@@ -87,5 +88,72 @@
     </div>
     <script>
         let table = new DataTable('#tbl_content');
+
+
+        let actionIds = [];
+        let body = $( 'body');
+        body.on('click', 'input[type=checkbox]', function(){
+            let val = this.value
+            if( this.checked){
+                actionIds.push( this.value)
+                $('#btn_action').removeClass('disabled');
+            }else{
+                actionIds = actionIds.filter( function( obj ) {
+                    return obj !== val;
+                });
+                if( actionIds.length === 0){
+                    $('#btn_action').addClass('disabled');
+                }
+            }
+        })
+        function deleteSelected( ids){
+            $.ajax({
+                headers : {
+                    'X-CSRF-Token' : "{{ csrf_token() }}"
+                },
+                success : function( data) {
+                    window.location.reload()
+                },
+                error: function (a, b, c){
+                    console.log( a)
+                },
+                data: JSON.stringify( actionIds),
+                url : '/content?ids=' + actionIds.toString() ,
+                type : 'DELETE'
+            });
+        }
+        $('#btn_action').on('click', function(){
+            let action = $('#sel_actions').val();
+            switch( action){
+                case 'delete':
+                    deleteSelected( actionIds);
+                    break;
+            }
+        })
+        body.on('keyup', '.value', function( e){
+            let mimetype = e.currentTarget.dataset.mimetype
+            let id = e.currentTarget.dataset.id
+            if( mimetype === 'text/plain'){
+                let value = this.value;
+                $.ajax({
+                    headers : {
+                        'X-CSRF-Token' : "{{ csrf_token() }}"
+                    },
+                    success : function( data) {
+                        //window.location.reload()
+                    },
+                    error: function (a, b, c){
+                        console.log( a)
+                    },
+                    data: { value:value},
+                    url : '/content/' + id ,
+                    type : 'PUT'
+                });
+            }
+            if( mimetype === 'text/html'){
+                let value = this.value;
+                console.log( value)
+            }
+        })
     </script>
 </x-app-layout>

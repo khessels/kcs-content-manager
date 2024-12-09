@@ -15,7 +15,13 @@ Route::post('/language/switch', [LanguagesController::class, 'languageSwitch'])-
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [PageController::class, 'dashboard'])->name('dashboard');
     Route::get('/organisation', [PageController::class, 'organisation'])->name('organisation');
-    Route::get('/content', [ContentController::class, 'view'])->name('content');
+
+
+    Route::group(['prefix' => 'content'], function () {
+        Route::delete('/', [ContentController::class, 'deleteContentItems']);
+        Route::get('/', [ContentController::class, 'view'])->name('view.content');
+        Route::put('/{id}', [ContentController::class, 'changeContent'])->name('put.content');
+    });
 });
 
 Route::middleware('auth')->group(function () {

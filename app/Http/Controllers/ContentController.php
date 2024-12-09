@@ -16,6 +16,24 @@ use Illuminate\View\View;
 
 class ContentController extends Controller
 {
+    public function changeContent( Request $request, $id ){
+        $content = Content::find( $id);
+        if( empty( $content)){
+            return 'FAIL';
+        }
+        $content->value = $request->value;
+        $content->save();
+        return 'OK';
+    }
+    public function deleteContentItems( Request $request){
+        $data = $request->all();
+        if( empty( $data['ids'])){
+            return 'ERROR';
+        }
+        $ids = explode(',', $data['ids']);
+        Content::destroy( $ids);
+        return 'OK';
+    }
     public function view(): View
     {
         $content = Content::all();

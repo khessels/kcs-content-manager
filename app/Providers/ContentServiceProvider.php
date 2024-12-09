@@ -20,18 +20,23 @@ class ContentServiceProvider extends ServiceProvider
         // get all the content from the server and populate redis
         try {
             $app = config( 'kcs-content-manager.app' );
-            $items = DB::table("content")->where('status', 'active')->get();
-            foreach ($items as $item) {
-                $key = $item->key;
-                if ($item->page != null) {
-                    $key .= '.' . $item->page;
+            $redisSet = Redis::get(  $app . '.redis-set' );
+            if( ! $redisSet) {
+                $items = DB::table("content")->where('status', 'active')->get();
+                foreach ($items as $item) {
+                    $key = $item->key;
+                    if ($item->page != null) {
+                        $key .= '.' . $item->page;
+                    }
+                    if ($item->language != null) {
+                        $key .= '.' . $item->language;
+                    }
+                    if( $item->value != null) {
+                        Redis::set($app . '.' . $key, $item->value);
+                        Redis::set($app . '.id.' . $item->id, $app . '.' . $key);
+                    }
                 }
-                if ($item->language != null) {
-                    $key .= '.' . $item->language;
-                }
-                if( $item->value != null) {
-                    Redis::set($app . '.' . $key, $item->value);
-                }
+                Redis::set($app . '.redis-set', true, 10);
             }
         }catch( \Exception $e ) {
             error_log($e->getMessage());
