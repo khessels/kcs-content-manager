@@ -53,8 +53,9 @@
                                 <td>
                                     @if( $item->mimetype === 'text/plain')
                                         <input type="text" class="value" data-id="{{ $item->id }}" data-mimetype="text/plain" data-value="{{ $item->value }}" value="{{ $item->value}}">
-                                    @else
-                                        <textarea class="value editor" >{{ $item->value ?? '-'}}</textarea>
+                                    @endif
+                                    @if( $item->mimetype === 'text/html')
+                                        <textarea class="value" data-id="{{ $item->id }}" data-mimetype="text/html" data-value="{{ $item->value }}">{{ $item->value ?? '-'}}</textarea>
                                     @endif
                                 </td>
                                 <td>{{ $item->mimetype ?? '-'}}</td>
@@ -131,29 +132,30 @@
             }
         })
         body.on('keyup', '.value', function( e){
+            console.log( e)
             let mimetype = e.currentTarget.dataset.mimetype
             let id = e.currentTarget.dataset.id
-            if( mimetype === 'text/plain'){
-                let value = this.value;
-                $.ajax({
-                    headers : {
-                        'X-CSRF-Token' : "{{ csrf_token() }}"
-                    },
-                    success : function( data) {
-                        //window.location.reload()
-                    },
-                    error: function (a, b, c){
-                        console.log( a)
-                    },
-                    data: { value:value},
-                    url : '/content/' + id ,
-                    type : 'PUT'
-                });
+            let value = undefined
+
+            if( mimetype === 'text/plain' || mimetype === 'text/html'){
+                value = this.value;
             }
-            if( mimetype === 'text/html'){
-                let value = this.value;
-                console.log( value)
-            }
+            console.log( mimetype)
+            console.log( value)
+            $.ajax({
+                headers : {
+                    'X-CSRF-Token' : "{{ csrf_token() }}"
+                },
+                success : function( data) {
+                    //window.location.reload()
+                },
+                error: function (a, b, c){
+                    console.log( a)
+                },
+                data: { value:value},
+                url : '/content/' + id ,
+                type : 'PUT'
+            });
         })
     </script>
 </x-app-layout>
