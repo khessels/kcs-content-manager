@@ -52,10 +52,10 @@
                                 </td>
                                 <td>
                                     @if( $item->mimetype === 'text/plain')
-                                        <input type="text" class="value" data-id="{{ $item->id }}" data-mimetype="text/plain" data-value="{{ $item->value }}" value="{{ $item->value}}">
+                                        <input type="text" class="text_plain value" data-id="{{ $item->id }}" data-mimetype="text/plain" data-value="{{ $item->value }}" value="{{ $item->value}}">
                                     @endif
                                     @if( $item->mimetype === 'text/html')
-                                        <textarea class="value" data-id="{{ $item->id }}" data-mimetype="text/html" data-value="{{ $item->value }}">{{ $item->value ?? '-'}}</textarea>
+                                        <textarea class="value open-txt-html" data-id="{{ $item->id }}" data-mimetype="text/html" data-value="{{ $item->value }}">{{ $item->value ?? '-'}}</textarea>
                                     @endif
                                 </td>
                                 <td>{{ $item->mimetype ?? '-'}}</td>
@@ -70,29 +70,66 @@
             </div>
         </div>
     </div>
-    <div id="mdl_content_edit" class="modal" tabindex="-1">
+    <div id="mdl_text_html" class="modal text_html" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Modal title</h5>
+                    <h5 class="modal-title">key: Language: Page:</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Modal body text goes here.</p>
+                    <input type="hidden" class="id">
+                    <div id="text_html"></div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-primary save_text_html">Save changes</button>
                 </div>
             </div>
         </div>
     </div>
+    <script src="/tinymce/tinymce.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tinymce/tinymce-jquery@2/dist/tinymce-jquery.min.js"></script>
     <script>
         let table = new DataTable('#tbl_content');
-
-
         let actionIds = [];
-        let body = $( 'body');
+        let body = $('body');
+        $('#text_html').tinymce({ height: 500, /* other settings... */ });
+        var mdlTextHtml = new bootstrap.Modal(document.getElementById("mdl_text_html"), {});
+
+        function saveContent( id, value){
+            $.ajax({
+                headers : {
+                    'X-CSRF-Token' : "{{ csrf_token() }}"
+                },
+                success : function( data) {
+                    //window.location.reload()
+                },
+                error: function (a, b, c){
+                    console.log( a)
+                },
+                data: { value:value},
+                url : '/content/' + id ,
+                type : 'PUT'
+            });
+        }
+        body.on('dblclick', '.open-txt-html', function( e){
+            let content = this.value;
+            let id = e.currentTarget.dataset.id
+            $(".modal.text_html .id" ).val( id)
+            tinymce.get('text_html').setContent(content);
+            mdlTextHtml.show();
+        })
+        $('.save_text_html').on('click', function( e){
+            let content = tinymce.get('text_html').getContent();
+            let id = $(".modal.text_html .id" ).val()
+            saveContent( id, content)
+            mdlTextHtml.hide();
+        })
+
+
+
+
         body.on('click', 'input[type=checkbox]', function(){
             let val = this.value
             if( this.checked){
@@ -131,8 +168,7 @@
                     break;
             }
         })
-        body.on('keyup', '.value', function( e){
-            console.log( e)
+        body.on('keyup', '.text_plain.value', function( e){
             let mimetype = e.currentTarget.dataset.mimetype
             let id = e.currentTarget.dataset.id
             let value = undefined
@@ -140,22 +176,7 @@
             if( mimetype === 'text/plain' || mimetype === 'text/html'){
                 value = this.value;
             }
-            console.log( mimetype)
-            console.log( value)
-            $.ajax({
-                headers : {
-                    'X-CSRF-Token' : "{{ csrf_token() }}"
-                },
-                success : function( data) {
-                    //window.location.reload()
-                },
-                error: function (a, b, c){
-                    console.log( a)
-                },
-                data: { value:value},
-                url : '/content/' + id ,
-                type : 'PUT'
-            });
+            saveContent( id, value)
         })
     </script>
 </x-app-layout>
