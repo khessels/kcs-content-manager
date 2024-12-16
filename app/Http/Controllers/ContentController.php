@@ -83,7 +83,7 @@ class ContentController extends Controller
             return response()->json( [], 300);
         }
 
-        $content = Content::where('app', $request->header('x-app'))->get();
+        $content = Content::where('app', $request->header('x-app'))->where('env', 'production')->get();
         return response()->json( $content);
     }
     public function listManagement( Request $request)
@@ -94,7 +94,49 @@ class ContentController extends Controller
         $content = Content::where('app', $request->header('x-app'))->get();
         return response()->json( $content);
     }
-    public function addManagement( Request $request, $language){
+    public function addExpressions( Request $request ){
+        if( empty( $request->header('x-app'))){
+            return response()->json( [], 300);
+        }
+        if( empty( $request->header('x-dev'))){
+            return response()->json( [], 300);
+        }
+//        $app = $request->header('x-app');
+//        $dev = $request->header('x-dev');
+
+        if( empty( $request->all())){
+            return 'Fail';
+        }
+        foreach( $request->all() as $expression){
+            $expression =json_decode( $expression, true);
+            $expression[ 'app' ] = $request->header('x-app');
+            $expression[ 'env_source' ] = $request->header('x-dev');
+            $expression[ 'env' ] = 'local';
+
+            if( empty( $expression[ 'mimetype' ])){
+                $expression[ 'mimetype' ] = 'text/plain';
+            }
+            $query = Content::query();
+            $query = $query->where( 'key', $expression['expression']['key'] );
+            $query = $query->where( 'app', $request->header('x-app') );
+
+            if( !empty( $expression['expression']['page'] ) ){
+                if( $expression['expression']['page'] !== '___GENERIC___') {
+                    $query = $query->where('page', $expression['page']);
+                }
+            }
+            if( !empty( $expression['language'] ) ){
+                $query = $query->where( 'language', $expression['language'] );
+            }
+            $model = $query->first();
+            if( empty( $model ) ){
+                $content = new Content( $expression);
+                $content->save();
+            }
+        }
+        return 'OK';
+    }
+    public function addManagement( Request $request){
         if( empty( $request->header('x-app'))){
             return response()->json( [], 300);
         }

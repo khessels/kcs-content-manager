@@ -11,6 +11,7 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::get('/management/content', [ContentController::class, 'listManagement']);
-Route::post('/management/content/{language}', [ContentController::class, 'addManagement']);
+Route::post('/management/content', [ContentController::class, 'addManagement']);
+Route::post('/expressions', [ContentController::class, 'addExpressions']);
 Route::get('/production/content', [ContentController::class, 'listProduction']);
 

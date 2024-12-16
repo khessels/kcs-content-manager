@@ -56,6 +56,7 @@ class Content extends Model
 		'language',
 		'key',
 		'value',
+        'default',
         'env',
         'env_source',
 		'data',
