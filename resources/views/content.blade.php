@@ -384,7 +384,7 @@
             }
             saveContent( id, value)
         })
-        $('textarea').on('keyup', function( e){
+        body.on('keyup','textarea', function( e){
             let mimetype = e.currentTarget.dataset.mimetype
             let id = e.currentTarget.dataset.id
             let value = undefined
