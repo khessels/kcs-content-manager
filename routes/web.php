@@ -14,7 +14,7 @@ Route::post('/language/switch', [LanguagesController::class, 'languageSwitch'])-
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [PageController::class, 'dashboard'])->name('dashboard');
-    Route::get('/organisation', [PageController::class, 'organisation'])->name('organisation');
+    Route::get('/applications', [PageController::class, 'applications'])->name('applications');
 
 
     Route::group(['prefix' => 'content'], function () {

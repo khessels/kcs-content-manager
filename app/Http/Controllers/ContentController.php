@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Redirect;
@@ -166,37 +167,49 @@ class ContentController extends Controller
         }
         return response()->noContent();
     }
-    public static function translate( $expression)
+    public function retrieveContent( Request $request)
     {
-        if( (int) config('kcs-content-manager.expire') > 0) {
-            $redisKey = $expression[ 'key'];
-            if( isset( $expression[ 'page'])) {
-                $redisKey .= '.' . $expression[ 'page'];
+        $response = Http::withHeaders([
+            'Authentication' => 'bearer ' . config('kcs-content-manager.token'),
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+            'x-app' => config('kcs-content-manager.app')
+        ])->get(config('kcs-content-manager.domain') . '/api/management/content');
+        $tags = $response->json();
+        $items = [];
+        foreach( $tags as $tag ) {
+            $page = isset( $tag[ 'page']) ? $tag[ 'page'] : '___GENERIC___';
+            $items[$tag[ 'language']][ $page][ $tag[ 'key']] = $tag[ 'value' ];
+        }
+        foreach( $items as $language => $item ) {
+            $path = storage_path('app/kcs-content-manager.resources.' . $language );
+            file_put_contents( $path, json_encode( $items[ $language]) );
+        }
+        return 'OK';
+    }
+    public static function translate( $expression, $content)
+    {
+        try{
+            $content = json_decode( $content, true );
+            $page = isset( $expression[ 'page']) ? $expression[ 'page'] : '___GENERIC___';
+            if( isset( $content[ $page][ $expression[ 'key']])){
+                return $content[ $page][ $expression[ 'key']] ;
             }
-            if(! isset( $expression[ 'language'])) {
-                $redisKey .= '.' . Lang::locale();
-                $expression[ 'language'] = Lang::locale();
+            if( isset( $content[ '___GENERIC___'][ $expression[ 'key']])){
+                return $content[ '___GENERIC___'][ $expression[ 'key']] ;
             }
-            $value = Redis::get( config( 'kcs-content-manager.app' ) . '.' . $redisKey);
-            if ( $value === null || $value === false ) {
-                if( strtolower(config( 'kcs-content-manager.post')) === 'yes') {
-                    Http::withHeaders([
-                        'Authentication' => 'bearer ' . config('kcs-content-manager.token'),
-                        'Content-Type' => 'application/json',
-                        'Accept' => 'application/json',
-                        'x-dev' => config('kcs-content-manager.dev'),
-                        'x-app' => config('kcs-content-manager.app')
-                    ])
-                        ->post(
-                            config('kcs-content-manager.domain') . '/api/management/content/' . Lang::locale(),
-                            $expression
-                        );
-                }
-                return ! isset( $expression[ 'default']) ? $expression[ 'key'] : $expression[ 'default'];
+
+            if( Cache::get('kcs-content-manager.engine.collection.enabled')){
+                // save tag to expressions cache
+                $line =json_encode( ['expression' => $expression, 'page' => $page, 'language' => Lang::locale()]);
+                Cache::add('kcs-content-manager.engine.collection', $line, config('kcs-content-manager.expire') );
             }
-            return $value;
-        }else{
-            return ! isset( $expression[ 'default']) ? $expression[ 'key'] : $expression[ 'default'];
+            if( ! empty( $expression[ 'default'])){
+                return  $expression[ 'default'];
+            }
+            return  $expression[ 'key'];
+        }catch(\Exception $e){
+            error_log( $e->getMessage());
         }
     }
 }

@@ -17,8 +17,8 @@ class PageController extends Controller
     {
         return view('dashboard');
     }
-    public function organisation(): View
+    public function applications(): View
     {
-        return view('organisation');
+        return view('applications');
     }
 }

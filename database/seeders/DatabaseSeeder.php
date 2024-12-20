@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             PermissionsSeeder::class,
             UserSeeder::class,
             ContentSeeder::class,
+            AppsSeeder::class,
         ];
         array_map(fn($s) => $this->call($s), $seeds);
     }
