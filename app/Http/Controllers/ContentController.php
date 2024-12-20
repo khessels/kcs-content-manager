@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\App;
+use App\Models\AppKvStore;
 use App\Models\Content;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
@@ -44,6 +46,8 @@ class ContentController extends Controller
         }
         if( ! empty( $filters['app'])){
             $query->where( 'app', $filters['app']);
+        }else{
+            $query->where( 'app', '');
         }
         if( ! empty( $filters['user_id'])){
             $query->where( 'user_id', $filters['user_id']);
@@ -75,7 +79,26 @@ class ContentController extends Controller
             $query->where( 'mimetype', $filters['mimetype']);
         }
         $content = $query->get();
-        return view('content')->with(compact('filters'))->with('content', $content);
+        $apps = App::where('status', 'ACTIVE')->get();
+
+        $app = null;
+        $locales = ['en'];
+        if( ! empty( $filters['app'])){
+            // override default config with app config
+            $app = App::where('name', $filters['app'])->with('config')->first();
+            foreach( $app->config as $item){
+                if($item->key == 'available_locales'){
+                    $locales = explode( ',', $item->value );
+                }
+            }
+        }
+
+        return view('content')
+            ->with(compact('filters'))
+            ->with('content', $content)
+            ->with('locales', $locales)
+            ->with('apps', $apps)
+            ->with('current_app', $app);
     }
 
     public function listProduction( Request $request)

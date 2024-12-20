@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class App
- * 
+ *
  * @property int $id
  * @property int|null $user_id
  * @property string $name
@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property array|null $properties
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * 
+ *
  * @property User|null $user
  * @property Collection|AppKvStore[] $app_kv_stores
  * @property Collection|AppToken[] $app_tokens
@@ -48,9 +48,9 @@ class App extends Model
 		return $this->belongsTo(User::class);
 	}
 
-	public function app_kv_stores()
+	public function config()
 	{
-		return $this->hasMany(AppKvStore::class);
+		return $this->hasMany(AppKvStore::class)->where('topic', 'config');
 	}
 
 	public function app_tokens()

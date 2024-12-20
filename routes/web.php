@@ -16,7 +16,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [PageController::class, 'dashboard'])->name('dashboard');
     Route::get('/applications', [PageController::class, 'applications'])->name('applications');
 
-
     Route::group(['prefix' => 'content'], function () {
         Route::delete('/', [ContentController::class, 'deleteContentItems']);
         Route::get('/', [ContentController::class, 'view'])->name('view.content');
