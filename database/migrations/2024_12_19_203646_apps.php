@@ -25,22 +25,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('app_tokens', function (Blueprint $table) {
-            $table->id();
-
-            $table->string( 'name')->nullable(false);
-            $table->unsignedBigInteger('app_id')->index()->nullable( true);
-            $table->foreign('app_id')
-                ->references('id')
-                ->on('apps');
-
-            $table->enum('status', ['ACTIVE', 'INACTIVE'])->default('ACTIVE')->nullable( false);
-            $table->json( 'properties')->nullable(true);
-
-            $table->dateTime('expire_at')->nullable(true);
-            $table->timestamps();
-        });
-
         Schema::create('app_users', function (Blueprint $table) {
             $table->id();
 

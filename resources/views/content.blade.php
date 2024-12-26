@@ -10,107 +10,106 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900 dark:text-gray-100">
-                        <h4>@c(['key' => 'filters'])</h4>
-                            <div class="row">
-                                <div class="col6">
-                                    @c(['key' => 'App']):
-                                    <select id="app" name="app">
-                                        <option value="">@c(['key' => 'select'])</option>
-                                        @foreach( $apps as $app)
-                                            <option {{ ! empty( $filters['app']) ? (strtolower( $app->name) == strtolower( $filters['app']) ? 'selected' : '') : ''}} value="{{ $app->name }}">{{ $app->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                        <div class="row">
+                            <div class="col6">
+                                @c(['key' => 'App']):
+                                <select id="app" name="app">
+                                    <option value="">@c(['key' => 'select'])</option>
+                                    @foreach( $apps as $app)
+                                        <option {{ ! empty( $filters['app']) ? (strtolower( $app->name) == strtolower( $filters['app']) ? 'selected' : '') : ''}} value="{{ $app->name }}">{{ $app->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
-                            <div class="row">
-                                <div class="col-2">
-                                    <label for="language" class="form-label">@c(['key' => 'language'])</label>
-                                    <select name="language" id="language">
-                                        <option value="" >@c(['key' => 'select'])</option>
-                                        @foreach( $locales as $locale)
-                                            <option {{ ! empty( $filters['language']) ? (strtolower( $locale) == strtolower( $filters['language']) ? 'selected' : '') : '' }} value="{{ $locale }}">@c(['key' => $locale])</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-2">
-                                    <label for="user_id" class="form-label">@c(['key' => 'page'])</label>
-                                    <input type="text" class="form-control" id="page" name="page" value="{{ ! empty( $filters['page']) ?  $filters['page'] : '' }}">
-                                </div>
-                                <div class="col-2">
-                                    <label for="app" class="form-label">@c(['key' => 'status'])</label><br>
-                                    <select name="status" id="status">
-                                        <option value="" selected>@c(['key' => 'select'])</option>
-                                        <option value="active">@c(['key' => 'active'])</option>
-                                        <option value="inactive">@c(['key' => 'inactive'])</option>
-                                    </select>
-                                </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-2">
+                                <label for="language" class="form-label">@c(['key' => 'language'])</label>
+                                <select name="language" id="language">
+                                    <option value="" >@c(['key' => 'select'])</option>
+                                    @foreach( $locales as $locale)
+                                        <option {{ ! empty( $filters['language']) ? (strtolower( $locale) == strtolower( $filters['language']) ? 'selected' : '') : '' }} value="{{ $locale }}">@c(['key' => $locale])</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-2">
+                                <label for="user_id" class="form-label">@c(['key' => 'page'])</label>
+                                <input type="text" class="form-control" id="page" name="page" value="{{ ! empty( $filters['page']) ?  $filters['page'] : '' }}">
+                            </div>
+                            <div class="col-2">
+                                <label for="app" class="form-label">@c(['key' => 'status'])</label><br>
+                                <select name="status" id="status">
+                                    <option {{ ! empty( $filters['status']) ? ( '' == strtolower( $filters['status']) ? 'selected' : '') : 'selected' }} value="" >@c(['key' => 'select'])</option>
+                                    <option {{ ! empty( $filters['status']) ? ( 'active' == strtolower( $filters['status']) ? 'selected' : '') : '' }} value="active">@c(['key' => 'active'])</option>
+                                    <option {{ ! empty( $filters['status']) ? ( 'inactive' == strtolower( $filters['status']) ? 'selected' : '') : '' }} value="inactive">@c(['key' => 'inactive'])</option>
+                                </select>
+                            </div>
 
-                                <div class="col-2">
-                                    <label for="parent_id" class="form-label">@c(['key' => 'parent id'])</label>
-                                    <input style="max-width:100px" type="number" class="form-control" id="parent_id" name="parent_id" value="{{ ! empty( $filters['parent_id']) ?  $filters['parent_id'] : '' }}">
-                                </div>
-                                <div class="col-2">
-                                    <label for="user_id" class="form-label">@c(['key' => 'user id'])</label>
-                                    <input style="max-width:100px"  type="number" class="form-control" id="user_id" name="user_id" value="{{ ! empty( $filters['user_id']) ?  $filters['user_id'] : '' }}">
-                                </div>
+                            <div class="col-2">
+                                <label for="parent_id" class="form-label">@c(['key' => 'parent id'])</label>
+                                <input style="max-width:100px" type="number" class="form-control" id="parent_id" name="parent_id" value="{{ ! empty( $filters['parent_id']) ?  $filters['parent_id'] : '' }}">
+                            </div>
+                            <div class="col-2">
+                                <label for="user_id" class="form-label">@c(['key' => 'user id'])</label>
+                                <input style="max-width:100px"  type="number" class="form-control" id="user_id" name="user_id" value="{{ ! empty( $filters['user_id']) ?  $filters['user_id'] : '' }}">
+                            </div>
 
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <label for="key" class="form-label">@c(['key' => 'key'])</label>
+                                <input type="text" class="form-control" id="key" name="key" value="{{ ! empty( $filters['key']) ?  $filters['key'] : '' }}">
                             </div>
-                            <div class="row">
-                                <div class="col-3">
-                                    <label for="key" class="form-label">@c(['key' => 'key'])</label>
-                                    <input type="text" class="form-control" id="key" name="key" value="{{ ! empty( $filters['key']) ?  $filters['key'] : '' }}">
-                                </div>
-                                <div class="col-3">
-                                    <label for="value" class="form-label">@c(['key' => 'value'])</label>
-                                    <input type="text" class="form-control" id="value" name="value" value="{{ ! empty( $filters['value']) ?  $filters['value'] : '' }}">
-                                </div>
-                                <div class="col-2">
-                                    <label for="mimetype" class="form-label">@c(['key' => 'mimetype'])</label>
-                                    <select name="mimetype" id="mimetype">
-                                        <option value="" selected>@c(['key' => 'select'])</option>
-                                        <option value="text/plain">text/plain</option>
-                                        <option value="text/html">text/html</option>
-                                        <option value="image/jpeg">image/jpeg</option>
-                                        <option value="image/jpg">image/jpg</option>
-                                        <option value="image/png">image/png</option>
-                                        <option value="image/webp">image/webp</option>
-                                        <option value="image/svg">image/svg</option>
-                                    </select>
-                                </div>
+                            <div class="col-3">
+                                <label for="value" class="form-label">@c(['key' => 'value'])</label>
+                                <input type="text" class="form-control" id="value" name="value" value="{{ ! empty( $filters['value']) ?  $filters['value'] : '' }}">
+                            </div>
+                            <div class="col-2">
+                                <label for="mimetype" class="form-label">@c(['key' => 'mimetype'])</label>
+                                <select name="mimetype" id="mimetype">
+                                    <option value="" {{ ! empty( $filters['mimetype']) ? ( '' == strtolower( $filters['mimetype']) ? 'selected' : '') : 'selected' }}>@c(['key' => 'select'])</option>
+                                    <option value="text/plain" {{ ! empty( $filters['mimetype']) ? ( 'text/plain' == strtolower( $filters['mimetype']) ? 'selected' : '') : '' }}>text/plain</option>
+                                    <option value="text/html" {{ ! empty( $filters['mimetype']) ? ( 'text/html' == strtolower( $filters['mimetype']) ? 'selected' : '') : '' }}>text/html</option>
+                                    <option value="image/jpeg" {{ ! empty( $filters['mimetype']) ? ( 'image/jpeg' == strtolower( $filters['mimetype']) ? 'selected' : '') : '' }}>image/jpeg</option>
+                                    <option value="image/jpg" {{ ! empty( $filters['mimetype']) ? ( 'image/jpg' == strtolower( $filters['mimetype']) ? 'selected' : '') : '' }}>image/jpg</option>
+                                    <option value="image/png" {{ ! empty( $filters['mimetype']) ? ( 'image/png' == strtolower( $filters['mimetype']) ? 'selected' : '') : '' }}>image/png</option>
+                                    <option value="image/webp"  {{ ! empty( $filters['mimetype']) ? ( 'image/webp' == strtolower( $filters['mimetype']) ? 'selected' : '') : '' }}>image/webp</option>
+                                    <option value="image/svg" {{ ! empty( $filters['mimetype']) ? ( 'image/svg' == strtolower( $filters['mimetype']) ? 'selected' : '') : '' }}>image/svg</option>
+                                </select>
+                            </div>
 
-                                <div class="col-2">
-                                    <label for="env_source" class="form-label">@c(['key' => 'env_source'])</label>
-                                    <select name="env_source" id="env_source">
-                                        <option value="" selected>@c(['key' => 'select'])</option>
-                                        <option value="unknown">Unknown</option>
-                                        <option value="kees.hessels@gmail.com">kees.hessels@gmail.com</option>
-                                    </select>
-                                </div>
+                            <div class="col-2">
+                                <label for="env_source" class="form-label">@c(['key' => 'env_source'])</label>
+                                <select name="env_source" id="env_source">
+                                    <option value="" {{ ! empty( $filters['env_source']) ? ( '' == strtolower( $filters['env_source']) ? 'selected' : '') : 'selected' }}>@c(['key' => 'select'])</option>
+                                    <option value="unknown" {{ ! empty( $filters['env_source']) ? ( 'unknown' == strtolower( $filters['env_source']) ? 'selected' : '') : '' }}>Unknown</option>
+                                    <option value="kees.hessels@gmail.com" {{ ! empty( $filters['env_source']) ? ( 'kes.hessels@gmail.com' == strtolower( $filters['env_source']) ? 'selected' : '') : '' }}>kees.hessels@gmail.com</option>
+                                </select>
                             </div>
-                            <div class="row">
-                                <div class="col-3">
-                                    <label for="publish_at" class="form-label">@c(['key' => 'publish @'])</label>
-                                    <input type="date" class="form-control" id="publish_at" name="publish_at" value="{{ ! empty( $filters['publish_at']) ?  $filters['publish_at'] : '' }}">
-                                </div>
-                                <div class="col-3">
-                                    <label for="expire_at" class="form-label">@c(['key' => 'expire @'])</label>
-                                    <input type="date" class="form-control" id="expire_at" name="expire_at" value="{{ ! empty( $filters['expire_at']) ?  $filters['expire_at'] : '' }}">
-                                </div>
-                                <div class="col-2">
-                                    <label for="env" class="form-label">@c(['key' => 'env'])</label><br>
-                                    <select name="env" id="env">
-                                        <option value="" selected>@c(['key' => 'select'])</option>
-                                        <option value="local">@c(['key' => 'local'])</option>
-                                        <option value="production">@c(['key' => 'production'])</option>
-                                    </select>
-                                </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <label for="publish_at" class="form-label">@c(['key' => 'publish @'])</label>
+                                <input type="date" class="form-control" id="publish_at" name="publish_at" value="{{ ! empty( $filters['publish_at']) ?  $filters['publish_at'] : '' }}">
                             </div>
-                            <div class="row" style="padding-top: 20px;">
-                                <div class="col-4">
-                                    <button type="submit" class="btn btn-primary">@c(['key' => 'apply filter(s)'])</button>
-                                    <button type="reset" class="btn btn-secondary disabled">@c(['key' => 'reset'])</button>
-                                </div>
+                            <div class="col-3">
+                                <label for="expire_at" class="form-label">@c(['key' => 'expire @'])</label>
+                                <input type="date" class="form-control" id="expire_at" name="expire_at" value="{{ ! empty( $filters['expire_at']) ?  $filters['expire_at'] : '' }}">
                             </div>
+                            <div class="col-2">
+                                <label for="env" class="form-label">@c(['key' => 'env'])</label><br>
+                                <select name="env" id="env">
+                                    <option value="" {{ ! empty( $filters['env']) ? ( '' == strtolower( $filters['env']) ? 'selected' : '') : 'selected' }}>@c(['key' => 'select'])</option>
+                                    <option value="local" {{ ! empty( $filters['env']) ? ( 'local' == strtolower( $filters['env']) ? 'selected' : '') : '' }}>@c(['key' => 'local'])</option>
+                                    <option value="production" {{ ! empty( $filters['env']) ? ( 'production' == strtolower( $filters['env']) ? 'selected' : '') : '' }}>@c(['key' => 'production'])</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top: 20px;">
+                            <div class="col-4">
+                                <button type="submit" class="btn btn-primary">@c(['key' => 'apply filter(s)'])</button>
+                                <button type="reset" class="btn btn-secondary ">@c(['key' => 'reset'])</button>
+                            </div>
+                        </div>
 
                     </div>
                 </div>

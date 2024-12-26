@@ -78,5 +78,6 @@ class AppsSeeder extends Seeder
         foreach( $kvs as $kv){
             AppKvStore::create( $kv);
         }
+
     }
 }

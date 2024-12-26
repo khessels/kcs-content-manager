@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\ContentController;
 use App\Http\Controllers\LanguagesController;
 use App\Http\Controllers\PageController;
@@ -14,7 +15,7 @@ Route::post('/language/switch', [LanguagesController::class, 'languageSwitch'])-
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [PageController::class, 'dashboard'])->name('dashboard');
-    Route::get('/applications', [PageController::class, 'applications'])->name('applications');
+    Route::get('/applications', [ApplicationController::class, 'view'])->name('view.applications');
 
     Route::group(['prefix' => 'content'], function () {
         Route::delete('/', [ContentController::class, 'deleteContentItems']);
@@ -30,5 +31,10 @@ Route::middleware('auth')->group(function () {
         Route::delete('/', [ProfileController::class, 'destroy'])->name('profile.destroy');
     });
 });
-
+Route::group(['prefix' => 'token'], function () {
+    Route::post('create', [ApplicationController::class, 'createToken'])->name('token.create');
+});
+Route::group(['prefix' => 'tokens'], function () {
+    Route::get('/', [ApplicationController::class, 'listTokens'])->name('tokens.list');
+});
 require __DIR__.'/auth.php';

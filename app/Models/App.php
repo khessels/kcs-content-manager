@@ -9,6 +9,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Sanctum\HasApiTokens;
 
 /**
  * Class App
@@ -29,6 +30,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class App extends Model
 {
+    use HasApiTokens;
+
 	protected $table = 'apps';
 
 	protected $casts = [
@@ -47,14 +50,13 @@ class App extends Model
 	{
 		return $this->belongsTo(User::class);
 	}
-
+    public function users()
+    {
+        return $this->hasMany(AppUser::class);
+    }
 	public function config()
 	{
 		return $this->hasMany(AppKvStore::class)->where('topic', 'config');
 	}
 
-	public function app_tokens()
-	{
-		return $this->hasMany(AppToken::class);
-	}
 }
