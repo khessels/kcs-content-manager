@@ -49,11 +49,7 @@ class ContentController extends Controller
         }
         return $this->view( $request);
     }
-    public function patch( Request $request){
-        $all  = $request->all();
-        $s = '';
-        return $this->view( $request);
-    }
+
     public function store( Request $request){
         try{
             $all = $request->all();
