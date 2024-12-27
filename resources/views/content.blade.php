@@ -203,8 +203,8 @@
     <div id="mdl_new" class="modal modal-xl" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="frm_tag">
-                    <input type="hidden" name="_method">
+                <form id="frm_tag" method="POST">
+                    <input type="hidden" name="_method" value="POST">
                     @csrf
                     <div class="modal-header">
                         <h5 class="modal-title">New tag</h5>
@@ -216,6 +216,7 @@
                         <div class="row">
                             <div class="col-1">
                                 <label for="app" class="form-label">App</label>
+                                <input name="cb_app" type="checkbox" class="update-selector" style="display:none;">
                                 <select name="app" id="app" class="app">
                                     <option value="" selected>@c(['key' => 'select'])</option>
                                     <option value="Select Finance">Select Finance</option>
@@ -225,14 +226,17 @@
 
                             <div class="col-1">
                                 <label for="parent_id" class="form-label">Parent ID</label>
+                                <input name="cb_parent_id" type="checkbox" class="update-selector" style="display:none;">
                                 <input type="number" class="form-control parent_id" id="parent_id" name="parent_id">
                             </div>
                             <div class="col-1">
                                 <label for="user_id" class="form-label">User ID</label>
+                                <input name="cb_user_id" type="checkbox" class="update-selector" style="display:none;">
                                 <input type="number" class="form-control user_id" id="user_id" name="user_id">
                             </div>
                             <div class="col-1">
                                 <label for="active" class="form-label">Status</label>
+                                <input name="cb_status" type="checkbox" class="update-selector" style="display:none;">
                                 <select name="status" id="status" class="status">
                                     <option value="active" selected>@c(['key' => 'Active'])</option>
                                     <option value="inactive">@c(['key' => 'Inactive'])</option>
@@ -240,6 +244,7 @@
                             </div>
                             <div class="col-2">
                                 <label for="env" class="form-label">Env</label>
+                                <input name="cb_env" type="checkbox" class="update-selector" style="display:none;">
                                 <select name="env" id="env" class="env">
                                     <option value="production" selected>@c(['key' => 'Production'])</option>
                                     <option value="local">@c(['key' => 'Local'])</option>
@@ -247,10 +252,12 @@
                             </div>
                             <div class="col-2">
                                 <label for="publish" class="form-label">publish</label>
+                                <input name="cb_publish_at" type="checkbox" class="update-selector" style="display:none;">
                                 <input type="date" class="form-control publish_at" id="publish_at" name="publish_at">
                             </div>
                             <div class="col-2">
                                 <label for="expire" class="form-label">expire</label>
+                                <input name="cb_expire_at" type="checkbox" class="update-selector" style="display:none;">
                                 <input type="date" class="form-control expire_at" id="expire_it" name="expire_at">
                             </div>
 
@@ -258,6 +265,7 @@
                         <div class="row">
                             <div class="col-2">
                                 <label for="language" class="form-label">Language</label>
+                                <input name="cb_language" type="checkbox" class="update-selector" style="display:none;">
                                 <select name="language" id="language" class="language">
                                     @foreach( config('app.available_locales') as $locale)
                                         @php
@@ -272,6 +280,7 @@
                             </div>
                             <div class="col-2">
                                 <label for="mimetype" class="form-label">@c(['key' => 'mimetype'])</label>
+                                <input name="cb_mimetype" type="checkbox" class="update-selector" style="display:none;">
                                 <select name="mimetype" id="mimetype" class="mimetype">
                                     <option value="text/plain">text/plain</option>
                                     <option value="text/html">text/html</option>
@@ -284,16 +293,19 @@
                             </div>
                             <div class="col-2">
                                 <label for="page" class="form-label">Page</label>
+                                <input name="cb_page" type="checkbox" class="update-selector" style="display:none;">
                                 <input type="text" class="form-control page" id="page" name="page">
                             </div>
                             <div class="col-2">
                                 <label for="key" class="form-label">Key</label>
+                                <input name="cb_key" type="checkbox" class="update-selector" style="display:none;">
                                 <input type="text" class="form-control key" id="key" name="key">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-auto">
                                 <label for="value" class="form-label">Value</label>
+                                <input name="cb_value" type="checkbox" class="update-selector" style="display:none;">
                                 <input type="text" class="form-control value" id="value" name="value">
                             </div>
                         </div>
@@ -454,11 +466,12 @@
                     deleteSelected( actionIds);
                     break;
                 case 'update':
-                    $( '#mdl_new').find( '.id').val( JSON.stringify( actionIds))
+                    $( '#mdl_new').find( '.id').val( actionIds)
                     // set the env_source to user logged in
                     $( '#mdl_new').find( '.env_source').val( user.email)
-                    mdlNew.show();
                     $( '#mdl_new').find( '[name="_method"]').val( 'PUT')
+                    $( '#mdl_new').find( '.update-selector').show();
+                    mdlNew.show();
             }
         })
         body.on('keyup', '.text-plain.value', function( e){

@@ -20,9 +20,33 @@ use Illuminate\View\View;
 
 class ContentController extends Controller
 {
-    public function put( Request $request){
+    public function update( Request $request){
         $all  = $request->all();
-        $s = '';
+        $ids = explode(',', $request->id);
+        $content = Content::whereIn( 'id', $ids)->get();
+        foreach( $content as $item){
+            foreach($all as $key => $value){
+                if( in_array( $key, ['app', 'env', 'env_source', 'expire_at', 'language', 'mimetype', 'page', 'parent_id', 'publish_at', 'status', 'user_id', 'key', 'value'])){
+                    if( ! empty( $request->{'cb_' . $key})) {
+                        if ( strtolower($request->{'cb_' . $key}) === 'on' ||
+                             strtolower($request->{'cb_' . $key}) === '1' ||
+                             strtolower($request->{'cb_' . $key}) === 'true') {
+                            if( empty( $value)){
+                                if( ! in_array( $key, ['app', 'status', 'key', 'mimetype', 'env', 'env_source'])){
+                                    $item->{$key} = null;
+                                    if( $key === 'value'){
+                                        $item->{$key} = '';
+                                    }
+                                }
+                            }else{
+                                $item->{$key} = $value;
+                            }
+                        }
+                    }
+                }
+            }
+            $item->save();
+        }
         return $this->view( $request);
     }
     public function patch( Request $request){
