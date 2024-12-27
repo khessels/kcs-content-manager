@@ -15,10 +15,37 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Route;
 use Illuminate\View\View;
 
 class ContentController extends Controller
 {
+    public function put( Request $request){
+        $all  = $request->all();
+        $s = '';
+        return $this->view( $request);
+    }
+    public function patch( Request $request){
+        $all  = $request->all();
+        $s = '';
+        return $this->view( $request);
+    }
+    public function store( Request $request){
+        try{
+            $all = $request->all();
+            if( empty( $request->id)) {
+                $content = new Content( $request->all());
+            }else{
+                unset( $all['id']);
+                $all = array_values( $all);
+                $content = Content::where( 'id', $request->id)->update( $all);
+            }
+            $content->save();
+        }catch(\Exception $e){
+            error_log( $e->getMessage() );
+        }
+        return $this->view( $request);
+    }
     public function changeContent( Request $request, $id ){
         $content = Content::find( $id);
         if( empty( $content)){
@@ -46,8 +73,6 @@ class ContentController extends Controller
         }
         if( ! empty( $filters['app'])){
             $query->where( 'app', $filters['app']);
-        }else{
-            $query->where( 'app', '');
         }
         if( ! empty( $filters['user_id'])){
             $query->where( 'user_id', $filters['user_id']);
@@ -79,7 +104,7 @@ class ContentController extends Controller
             $query->where( 'mimetype', $filters['mimetype']);
         }
         $content = $query->get();
-        $apps = App::where('status', 'ACTIVE')->get();
+        $apps = App::get();
 
         $app = null;
         $locales = ['en'];
@@ -92,13 +117,14 @@ class ContentController extends Controller
                 }
             }
         }
-
+        $user = Auth::user()->toArray();
         return view('content')
-            ->with(compact('filters'))
-            ->with('content', $content)
-            ->with('locales', $locales)
-            ->with('apps', $apps)
-            ->with('current_app', $app);
+            ->with( compact('filters'))
+            ->with( 'content', $content)
+            ->with( 'user', $user)
+            ->with( 'locales', $locales)
+            ->with( 'apps', $apps)
+            ->with( 'current_app', $app);
     }
 
     public function listProduction( Request $request)

@@ -21,6 +21,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/', [ContentController::class, 'deleteContentItems']);
         Route::get('/', [ContentController::class, 'view'])->name('view.content');
         Route::put('/{id}', [ContentController::class, 'changeContent'])->name('put.content');
+        Route::post('/', [ContentController::class, 'store']);
+        Route::patch('/', [ContentController::class, 'patch']);
+        Route::put('/', [ContentController::class, 'put']);
     });
 });
 

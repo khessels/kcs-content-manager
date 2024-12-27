@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\App;
 use App\Models\AppKvStore;
-use App\Models\AppToken;
+//use App\Models\AppToken;
 use App\Models\Content;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
@@ -24,14 +24,22 @@ class ApplicationController extends Controller
     public function listTokens( Request $request){
         $userAppsIds = App::where('user_id', Auth::id())->get()->pluck('id')->toArray();
         $tokens = PersonalAccessToken::whereIn( 'tokenable_id', $userAppsIds)->get();
-        return ['tokens' => $tokens];
+        return [ 'tokens' => $tokens];
     }
 
     public function createToken( Request $request){
-        $app = App::where( 'name', $request->app)->where('user_id', Auth::id())->first();
-        $abilities = [ 'access:full'];
-        $token = $app->createToken($app->name, $abilities);
-        return ['token' => $token->plainTextToken];
+        try{
+            $all = $request->all();
+            $app = $request->app;
+            $id = Auth::id();
+            $app = App::where( 'name', $app)->where('user_id', $id)->first();
+            $abilities = [ 'access:full'];
+            $token = $app->createToken($app->name, $abilities);
+            return ['token' => $token->plainTextToken];
+        }catch(\Exception $e){
+            error_log( $e->getMessage());
+        }
+        return false;
     }
     public function changeContent( Request $request, $id ){
         $content = Content::find( $id);
@@ -56,11 +64,11 @@ class ApplicationController extends Controller
         $filters = $request->all();
         $query = App::query();
 
-
         if( ! empty( $filters['name'])){
             $query->where( 'name', $filters['name']);
         }
         $query->where( 'status', 'ACTIVE');
+        $query->where( 'user_id', Auth::id());
         $apps = $query->get();
 
         return view('applications')

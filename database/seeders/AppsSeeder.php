@@ -79,5 +79,8 @@ class AppsSeeder extends Seeder
             AppKvStore::create( $kv);
         }
 
+        $appUsers = [];
+        $appUser['user_id'] = 1;
+        $appUsers['id'] = 1;
     }
 }
