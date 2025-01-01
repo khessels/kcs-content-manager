@@ -21,6 +21,9 @@
                     <x-nav-link :href="route('view.content')" :active="request()->routeIs('view.content')">
                         {{ __('Content') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('view.resources')" :active="request()->routeIs('view.resources')">
+                        {{ __('Resources') }}
+                    </x-nav-link>
                 </div>
             </div>
 

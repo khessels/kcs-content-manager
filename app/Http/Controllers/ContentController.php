@@ -6,6 +6,7 @@ use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\App;
 use App\Models\AppKvStore;
 use App\Models\Content;
+use App\Models\Mimetype;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -138,7 +139,9 @@ class ContentController extends Controller
             }
         }
         $user = Auth::user()->toArray();
+        $mimetypes = Mimetype::all();
         return view('content')
+            ->with( 'mimetypes', $mimetypes)
             ->with( compact('filters'))
             ->with( 'content', $content)
             ->with( 'user', $user)

@@ -5,6 +5,7 @@ use App\Http\Controllers\ContentController;
 use App\Http\Controllers\LanguagesController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ResourceController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -16,6 +17,7 @@ Route::post('/language/switch', [LanguagesController::class, 'languageSwitch'])-
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [PageController::class, 'dashboard'])->name('dashboard');
     Route::get('/applications', [ApplicationController::class, 'view'])->name('view.applications');
+    Route::get('/resources', [ResourceController::class, 'view'])->name('view.resources');
 
     Route::group(['prefix' => 'content'], function () {
         Route::delete('/', [ContentController::class, 'deleteContentItems']);
@@ -24,6 +26,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/', [ContentController::class, 'store']);
         Route::put('/', [ContentController::class, 'update']);
     });
+    Route::post('/resource', [ResourceController::class, 'upload']);
+
 });
 
 Route::middleware('auth')->group(function () {

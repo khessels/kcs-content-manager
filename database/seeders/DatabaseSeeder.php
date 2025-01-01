@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             ContentSeeder::class,
             AppsSeeder::class,
+            MimeTypesSeeder::class,
         ];
         array_map(fn($s) => $this->call($s), $seeds);
     }

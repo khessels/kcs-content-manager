@@ -3,6 +3,7 @@
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             Content
         </h2>
+
     </x-slot>
 
     <form>
@@ -66,13 +67,9 @@
                                 <label for="mimetype" class="form-label">@c(['key' => 'mimetype'])</label>
                                 <select name="mimetype" id="mimetype" class="filter-element">
                                     <option value="" {{ ! empty( $filters['mimetype']) ? ( '' == strtolower( $filters['mimetype']) ? 'selected' : '') : 'selected' }}>@c(['key' => 'select'])</option>
-                                    <option value="text/plain" {{ ! empty( $filters['mimetype']) ? ( 'text/plain' == strtolower( $filters['mimetype']) ? 'selected' : '') : '' }}>text/plain</option>
-                                    <option value="text/html" {{ ! empty( $filters['mimetype']) ? ( 'text/html' == strtolower( $filters['mimetype']) ? 'selected' : '') : '' }}>text/html</option>
-                                    <option value="image/jpeg" {{ ! empty( $filters['mimetype']) ? ( 'image/jpeg' == strtolower( $filters['mimetype']) ? 'selected' : '') : '' }}>image/jpeg</option>
-                                    <option value="image/jpg" {{ ! empty( $filters['mimetype']) ? ( 'image/jpg' == strtolower( $filters['mimetype']) ? 'selected' : '') : '' }}>image/jpg</option>
-                                    <option value="image/png" {{ ! empty( $filters['mimetype']) ? ( 'image/png' == strtolower( $filters['mimetype']) ? 'selected' : '') : '' }}>image/png</option>
-                                    <option value="image/webp"  {{ ! empty( $filters['mimetype']) ? ( 'image/webp' == strtolower( $filters['mimetype']) ? 'selected' : '') : '' }}>image/webp</option>
-                                    <option value="image/svg" {{ ! empty( $filters['mimetype']) ? ( 'image/svg' == strtolower( $filters['mimetype']) ? 'selected' : '') : '' }}>image/svg</option>
+                                    @foreach( $mimetypes as $mimetype)
+                                        <option value="{{ $mimetype->mimetype }}" {{ ! empty( $filters['mimetype']) ? ( $mimetype->mimetype == strtolower( $filters['mimetype']) ? 'selected' : '') : '' }}>{{ $mimetype->mimetype}}</option>
+                                    @endforeach
                                 </select>
                             </div>
 
@@ -118,22 +115,26 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <form class="row g-3" >
-                        <div class="col-auto">
-                            <label for="formFile" class="form-label">{{__('With selected')}}:</label>
+                    <div class="row" >
+                        <div class="col-6">
+                            <form style='display:inline;'>
+                                <label for="formFile" >{{__('With selected')}}:</label>
+                                <select id="sel_actions">
+                                    <option value="" selected>{{__('Select')}}</option>
+                                    <option value="delete">{{__('Delete')}}</option>
+                                    <option value="update">{{__('Update')}}</option>
+                                </select>
+                                <a id="btn_action" href="javascript:void(0)" class="btn btn-primary disabled ">{{__('Apply')}}</a>
+                            </form>
                         </div>
                         <div class="col-2">
-                            <select id="sel_actions" class="form-control" >
-                                <option value="" selected>{{__('Select')}}</option>
-                                <option value="delete">{{__('Delete')}}</option>
-                                <option value="update">{{__('Update')}}</option>
-                            </select>
                         </div>
-                        <div class="col-1">
-                            <a id="btn_action" href="javascript:void(0)" class="btn btn-primary disabled form-control">{{__('Apply')}}</a>
+                        <div class="col-2">
+                            <form action="/resource" class="dropzone" id="my-awesome-dropzone" data-position="new">
+                                @csrf
+                            </form>
                         </div>
-
-                    </form>
+                    </div>
                     <div class="col-auto">
                         <a href="javascript:void(0)" class="btn tag new btn-outline-primary">@c(['key' => 'New translation'])</a>
                     </div>
@@ -182,10 +183,9 @@
                                     @endif
                                     @if( in_array( strtolower($item->mimetype), ['image/jpg', 'image/jpeg', 'image/png', 'image/svg', 'image/webp',]))
                                         <label class="id_{{ $item->id }}">Original: {{ $item->value }}</label>
-                                        <form action="/file-upload"
-                                              class="dropzone open-image" data-mimetype="image" data-value="{{ $item->value }}"
-                                              id="my-awesome-dropzone"></form>
+{{--                                        <form action="/resource" class="dropzone open-image" data-mimetype="image" data-value="{{ $item->value }}" ></form>--}}
                                     @endif
+
                                 </td>
                                 <td>{{ $item->mimetype ?? '-'}}</td>
                                 <td>{{ $item->publish_at ?? '-'}}</td>
@@ -210,9 +210,11 @@
                         <h5 class="modal-title">New tag</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body ">
                         <input type="hidden" class="id" name="id">
                         <input type="hidden" class="env_source" name="env_source">
+                        <input type="hidden" class="filename" name="filename">
+                        <input type="hidden" class="uuid" name="uuid">
                         <div class="row">
                             <div class="col-1">
                                 <label for="app" class="form-label">App</label>
@@ -282,13 +284,9 @@
                                 <label for="mimetype" class="form-label">@c(['key' => 'mimetype'])</label>
                                 <input name="cb_mimetype" type="checkbox" class="update-selector" style="display:none;">
                                 <select name="mimetype" id="mimetype" class="mimetype">
-                                    <option value="text/plain">text/plain</option>
-                                    <option value="text/html">text/html</option>
-                                    <option value="image/jpeg">image/jpeg</option>
-                                    <option value="image/jpg">image/jpg</option>
-                                    <option value="image/png">image/png</option>
-                                    <option value="image/webp">image/webp</option>
-                                    <option value="image/svg">image/svg</option>
+                                    @foreach( $mimetypes as $mimetype)
+                                        <option value="{{ $mimetype->mimetype }}" >{{ $mimetype->mimetype}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="col-2">
@@ -336,8 +334,8 @@
             </div>
         </div>
     </div>
-    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+{{--    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>--}}
+{{--    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />--}}
 
     <script src="/tinymce/tinymce.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tinymce/tinymce-jquery@2/dist/tinymce-jquery.min.js"></script>
@@ -350,6 +348,40 @@
         var mdlTextHtml = new bootstrap.Modal(document.getElementById("mdl_text_html"), {});
         var mdlNew = new bootstrap.Modal(document.getElementById("mdl_new"), {});
 
+        let myDropzone = new Dropzone(".dropzone", {
+            maxFilesize: 20,
+            url: "/resource"
+        });
+        myDropzone.on("addedfile", function(file){
+            let position = this.element.dataset.position;
+            switch( position){
+                case 'table-item':
+                    break;
+                case 'filter':
+                    break;
+                default:
+                case 'new':
+                    if( actionIds.length > 0){
+                        let id = parseInt( actionIds[0]);
+                        let tag = content.find(obj => {
+                            return obj.id === id
+                        })
+                        duplicate( tag)
+                        // remove id since this is a new tag
+                        $( '#mdl_new').find( '.id').val( '')
+                        // set the env_source to user logged in
+                        $( '#mdl_new').find( '.env_source').val( user.email)
+                        $( '#mdl_new').find( '.key').val( file.upload.filename)
+                    }
+                    $( '#mdl_new').find( '.filemame').val( file.upload.filename)
+                    $( '#mdl_new').find( '.uuid').val( file.upload.uuid)
+
+                    $( '#mdl_new').find( '.mimetype').val( file.type);
+                    mdlNew.show();
+                    break;
+            }
+            console.log("A file has been added");
+        });
 
         $('#text_html').tinymce({ height: 500, /* other settings... */ });
 
@@ -365,12 +397,7 @@
             $( '#mdl_new').find( '.env_source').val( user.email)
             mdlNew.show();
         })
-        $('.duplicate').on('click', function( e){
-            // prefill form with selected options from current tag
-            let id = parseInt( this.dataset.id);
-            let tag = content.find(obj => {
-                return obj.id === id
-            })
+        function duplicate( tag){
             for(var property in tag){
                 if( property !== 'value') {
                     let v = tag[property];
@@ -385,12 +412,16 @@
                     $( '#mdl_new').find( '.value').val( val)
                 }
             }
-            // remove id since this is a new tag
-            $( '#mdl_new').find( '.id').val( '')
-            // set the env_source to user logged in
-            $( '#mdl_new').find( '.env_source').val( user.email)
+        }
 
-            $( '#mdl_new').find( '.' + property).val( tag[property])
+        $('.duplicate').on('click', function( e){
+            // prefill form with selected options from current tag
+            let id = parseInt( this.dataset.id);
+            let tag = content.find(obj => {
+                return obj.id === id
+            })
+            duplicate( tag)
+
             mdlNew.show();
         })
 

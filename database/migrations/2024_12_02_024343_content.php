@@ -39,6 +39,11 @@ return new class extends Migration
 
             $table->timestamps();
         });
+        Schema::create('mimetypes', function (Blueprint $table) {
+            $table->id();
+            $table->string( 'mimetype')->nullable(false);
+            $table->timestamps();
+        });
     }
 
     /**
