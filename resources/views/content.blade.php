@@ -27,6 +27,7 @@
                                 <label for="language" class="form-label">@c(['key' => 'language'])</label>
                                 <select name="language" id="language" class="filter-element">
                                     <option value="" >@c(['key' => 'select'])</option>
+                                    <option value="all" >@c(['key' => 'all'])</option>
                                     @foreach( $locales as $locale)
                                         <option {{ ! empty( $filters['language']) ? (strtolower( $locale) == strtolower( $filters['language']) ? 'selected' : '') : '' }} value="{{ $locale }}">@c(['key' => $locale])</option>
                                     @endforeach
@@ -130,9 +131,6 @@
                         <div class="col-2">
                         </div>
                         <div class="col-2">
-                            <form action="/resource" class="dropzone" id="my-awesome-dropzone" data-position="new">
-                                @csrf
-                            </form>
                         </div>
                     </div>
                     <div class="col-auto">
@@ -176,13 +174,16 @@
                                 </td>
                                 <td>
                                     @if( $item->mimetype === 'text/plain')
-                                        <input type="text" class="text-plain value id_{{ $item->id }}" data-id="{{ $item->id }}" data-mimetype="text/plain" data-value="{{ $item->value }}" value="{{ $item->value}}">
+                                        <input type="text" class="text-plain value id_{{ $item->id }}" data-id="{{ $item->id }}" data-mimetype="text/plain" data-value="{{ $item->value }}" value="{{ is_null($item->value) ? $item->default : $item->value }}">
                                     @endif
                                     @if( $item->mimetype === 'text/html')
-                                        <textarea rows="1" class="txt-html value id_{{ $item->id }}" data-id="{{ $item->id }}" data-mimetype="text/html" data-value="{{ $item->value }}">{{ $item->value }}</textarea>
+                                        <textarea rows="1" class="txt-html value id_{{ $item->id }}" data-id="{{ $item->id }}" data-mimetype="text/html" data-value="{{ $item->value }}">{{ is_null($item->value) ? $item->default : $item->value }}</textarea>
                                     @endif
                                     @if( in_array( strtolower($item->mimetype), ['image/jpg', 'image/jpeg', 'image/png', 'image/svg', 'image/webp',]))
                                         <label class="id_{{ $item->id }}">Original: {{ $item->value }}</label>
+                                            <a href="javascript:void(0)" class="link image" data-id="{{ $item->id }}" data-mimetype="text/plain" data-value="{{ $item->value }}" style="text-decoration: underline">
+                                                @c(['key' => 'Link image'])
+                                            </a>
 {{--                                        <form action="/resource" class="dropzone open-image" data-mimetype="image" data-value="{{ $item->value }}" ></form>--}}
                                     @endif
 
@@ -269,6 +270,7 @@
                                 <label for="language" class="form-label">Language</label>
                                 <input name="cb_language" type="checkbox" class="update-selector" style="display:none;">
                                 <select name="language" id="language" class="language">
+                                    <option value="all" selected>@c(['key' => 'all' ])</option>
                                     @foreach( config('app.available_locales') as $locale)
                                         @php
                                             $selected = '';
@@ -347,41 +349,6 @@
         let user = @json( $user);
         var mdlTextHtml = new bootstrap.Modal(document.getElementById("mdl_text_html"), {});
         var mdlNew = new bootstrap.Modal(document.getElementById("mdl_new"), {});
-
-        let myDropzone = new Dropzone(".dropzone", {
-            maxFilesize: 20,
-            url: "/resource"
-        });
-        myDropzone.on("addedfile", function(file){
-            let position = this.element.dataset.position;
-            switch( position){
-                case 'table-item':
-                    break;
-                case 'filter':
-                    break;
-                default:
-                case 'new':
-                    if( actionIds.length > 0){
-                        let id = parseInt( actionIds[0]);
-                        let tag = content.find(obj => {
-                            return obj.id === id
-                        })
-                        duplicate( tag)
-                        // remove id since this is a new tag
-                        $( '#mdl_new').find( '.id').val( '')
-                        // set the env_source to user logged in
-                        $( '#mdl_new').find( '.env_source').val( user.email)
-                        $( '#mdl_new').find( '.key').val( file.upload.filename)
-                    }
-                    $( '#mdl_new').find( '.filemame').val( file.upload.filename)
-                    $( '#mdl_new').find( '.uuid').val( file.upload.uuid)
-
-                    $( '#mdl_new').find( '.mimetype').val( file.type);
-                    mdlNew.show();
-                    break;
-            }
-            console.log("A file has been added");
-        });
 
         $('#text_html').tinymce({ height: 500, /* other settings... */ });
 

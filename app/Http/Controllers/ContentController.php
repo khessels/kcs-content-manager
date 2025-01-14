@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\App;
 use App\Models\AppKvStore;
+use App\Models\AppUser;
 use App\Models\Content;
 use App\Models\Mimetype;
 use App\Models\User;
@@ -21,6 +22,11 @@ use Illuminate\View\View;
 
 class ContentController extends Controller
 {
+    public function db_delete( Request $request){
+        $app = $request->header('x-app');
+        Content::where( 'app', $app)->delete();
+        return "OK";
+    }
     public function update( Request $request){
         $all  = $request->all();
         $ids = explode(',', $request->id);
@@ -55,7 +61,16 @@ class ContentController extends Controller
         try{
             $all = $request->all();
             if( empty( $request->id)) {
-                $content = new Content( $request->all());
+                if($request->language == 'all'){
+                    $app = App::where('name', $request->app)->with('config')->first() ;
+                    $locales = explode( ',', $this->kvStoreByKey($app->config, 'available_locales'));
+                    foreach($locales as $locale){
+                        $request->language = $locale;
+                        $content = new Content( $request->all());
+                    }
+                }else{
+                    $content = new Content( $request->all());
+                }
             }else{
                 unset( $all['id']);
                 $all = array_values( $all);
@@ -131,12 +146,8 @@ class ContentController extends Controller
         $locales = ['en'];
         if( ! empty( $filters['app'])){
             // override default config with app config
-            $app = App::where('name', $filters['app'])->with('config')->first();
-            foreach( $app->config as $item){
-                if($item->key == 'available_locales'){
-                    $locales = explode( ',', $item->value );
-                }
-            }
+            $app = App::where( 'name', $filters[ 'app'])->with( 'config')->first();
+            $locales = explode( ',', $this->kvStoreByKey($app->config, 'available_locales'));
         }
         $user = Auth::user()->toArray();
         $mimetypes = Mimetype::all();
@@ -159,12 +170,17 @@ class ContentController extends Controller
         $content = Content::where('app', $request->header('x-app'))->where('env', 'production')->get();
         return response()->json( $content);
     }
-    public function listManagement( Request $request)
+    public function listManagement( Request $request, $language = null)
     {
         if( empty( $request->header('x-app'))){
             return response()->json( [], 300);
         }
-        $content = Content::where('app', $request->header('x-app'))->get();
+        if( ! empty( $language)){
+            $content = Content::where('app', $request->header('x-app'))->where('language', $language)->get();
+        }else{
+            $content = Content::where('app', $request->header('x-app'))->get();
+        }
+
         return response()->json( $content);
     }
     public function addExpressions( Request $request ){
@@ -174,37 +190,38 @@ class ContentController extends Controller
         if( empty( $request->header('x-dev'))){
             return response()->json( [], 300);
         }
-//        $app = $request->header('x-app');
-//        $dev = $request->header('x-dev');
 
-        if( empty( $request->all())){
+        if( empty( $request->expressions)){
             return 'Fail';
         }
-        foreach( $request->all() as $expression){
+        $expressions = unserialize( $request->expressions);
+        foreach( $expressions as $expression){
             $expression =json_decode( $expression, true);
-            $expression[ 'app' ] = $request->header('x-app');
-            $expression[ 'env_source' ] = $request->header('x-dev');
-            $expression[ 'env' ] = 'local';
+            if( ! in_array( strtolower( $expression['key']), ['not found'])){
+                $xApp = $request->header('x-app');
+                $xDev = $request->header('x-dev');
+                $expression[ 'app' ] = $xApp;
+                $expression[ 'env_source' ] = $xDev;
+                $expression[ 'env' ] = 'local';
 
-            if( empty( $expression[ 'mimetype' ])){
-                $expression[ 'mimetype' ] = 'text/plain';
-            }
-            $query = Content::query();
-            $query = $query->where( 'key', $expression['expression']['key'] );
-            $query = $query->where( 'app', $request->header('x-app') );
+                if( empty( $expression[ 'mimetype' ])){
+                    $expression[ 'mimetype' ] = 'text/html';
+                }
+                $query = Content::query();
+                $query = $query->where( 'key', $expression['key'] );
+                $query = $query->where( 'app', $xApp );
 
-            if( !empty( $expression['expression']['page'] ) ){
-                if( $expression['expression']['page'] !== '___GENERIC___') {
+                if( !empty( $expression['page'] ) ){
                     $query = $query->where('page', $expression['page']);
                 }
-            }
-            if( !empty( $expression['language'] ) ){
-                $query = $query->where( 'language', $expression['language'] );
-            }
-            $model = $query->first();
-            if( empty( $model ) ){
-                $content = new Content( $expression);
-                $content->save();
+                if( !empty( $expression['language'] ) ){
+                    $query = $query->where( 'language', $expression['language'] );
+                }
+                $model = $query->first();
+                if( empty( $model ) ){
+                    $content = new Content( $expression);
+                    $content->save();
+                }
             }
         }
         return 'OK';

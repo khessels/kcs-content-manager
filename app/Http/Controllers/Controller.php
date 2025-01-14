@@ -10,4 +10,12 @@ abstract class Controller
             error_log($e->getMessage());
         }
     }
+    public function kvStoreByKey($config, $key, $default = null){
+        foreach( $config as $item){
+            if($item->key == $key){
+                return $item->value;
+            }
+        }
+        return $default;
+    }
 }

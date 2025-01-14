@@ -56,7 +56,16 @@ return [
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
         ],
-
+        'spaces' => [
+            'driver' => 's3',
+            'key' => env('SPACES_ACCESS_KEY_ID', '===AAACESS KEY==='),
+            'secret' => env('SPACES_SECRET_ACCESS_KEY', '===BBBSECRECT KEY==='),
+            'region' => env('SPACES_DEFAULT_REGION', 'ams3'),
+            'bucket' => env('SPACES_BUCKET', 'laravel-spaces'),
+            'url' => env('SPACES_URL', 'https://laravel-spaces.sgp1.cdn.digitaloceanspaces.com'),
+            'endpoint' => env('SPACES_ENDPOINT', 'https://laravel-spaces.sgp1.digitaloceanspaces.com'),
+            'use_path_style_endpoint' => env('SPACES_USE_PATH_STYLE_ENDPOINT', false),
+        ],
     ],
 
     /*
