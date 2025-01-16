@@ -22,6 +22,14 @@ use Illuminate\View\View;
 
 class ContentController extends Controller
 {
+    public function updateTagDirect( Request $request, $app, $id){
+        $content = Content::where( 'id', $id)->where('app', $app)->first();
+        if( ! empty( $content)){
+            $content->value = $request->value;
+            $content->save();
+        }
+        return 'OK';
+    }
     public function db_delete( Request $request){
         $app = $request->header('x-app');
         Content::where( 'app', $app)->delete();

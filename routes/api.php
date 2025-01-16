@@ -15,3 +15,4 @@ Route::post('/management/content', [ContentController::class, 'addManagement']);
 Route::post('/expressions', [ContentController::class, 'addExpressions']);
 Route::get('/production/content', [ContentController::class, 'listProduction']);
 Route::delete('/database', [ContentController::class, 'db_delete']);
+Route::patch('/tag/direct/{app}/{id}', [ContentController::class, 'updateTagDirect']);
