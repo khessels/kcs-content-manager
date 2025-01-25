@@ -45,6 +45,12 @@ class AppsSeeder extends Seeder
         $app['status']  = 'Active';
         $apps[] = $app;
 
+        $app['id'] = 6;
+        $app['user_id'] = 2;
+        $app['name']    = 'offshore';
+        $app['status']  = 'Active';
+        $apps[] = $app;
+
         foreach( $apps as $app){
             App::create( $app );
         }
@@ -73,6 +79,18 @@ class AppsSeeder extends Seeder
         $kv['key'] = 'available_locales';
         $kv['value'] = 'en,nl';
         $kv['app_id'] = 4;
+        $kvs[] = $kv;
+
+        $kv['topic'] = 'config';
+        $kv['key'] = 'available_locales';
+        $kv['value'] = 'en,nl';
+        $kv['app_id'] = 5;
+        $kvs[] = $kv;
+
+        $kv['topic'] = 'config';
+        $kv['key'] = 'available_locales';
+        $kv['value'] = 'en,es,nl';
+        $kv['app_id'] = 6;
         $kvs[] = $kv;
 
         foreach( $kvs as $kv){

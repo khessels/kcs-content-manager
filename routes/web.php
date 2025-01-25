@@ -27,7 +27,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::put('/', [ContentController::class, 'update']);
     });
     Route::post('/resource', [ResourceController::class, 'upload']);
-
 });
 
 Route::middleware('auth')->group(function () {

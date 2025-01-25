@@ -349,8 +349,60 @@
         let user = @json( $user);
         var mdlTextHtml = new bootstrap.Modal(document.getElementById("mdl_text_html"), {});
         var mdlNew = new bootstrap.Modal(document.getElementById("mdl_new"), {});
+        const config = {
+            entity_encoding: "raw",
+            license_key: 'gpl',
+            selector: '.cms',
+            menubar: true,
+            inline: true,
+            plugins: [
+                'link', 'lists', 'nonbreaking', 'autolink', 'code'
+            ],
+            toolbar: [
+                'undo redo | bold italic underline | fontfamily fontsize | code',
+                'forecolor backcolor | alignleft aligncenter alignright alignfull | numlist bullist outdent indent'
+            ],
+            // closed: /^(br|hr|input|meta|img|link|param|area|source)$/,
+            // valid_styles: {
+            //     '*': 'font-size,font-family,color,text-decoration,text-align'
+            // },
+            //
+            extended_valid_elements:"i[id|class|style],em,br[id|class|style]",
+            // closed: /^(br|hr|input|meta|img|link|param|area|source)$/,
+            // powerpaste_word_import: 'clean',
+            // powerpaste_html_import: 'clean',
+            {{--setup: function (editor) {--}}
+            {{--    editor.on('change', function (elm) {--}}
+            {{--        let content = editor.getContent()--}}
+            {{--        console.log('Editor content changed:', content);--}}
+            {{--        let id = elm.target.bodyElement.dataset.cmsId;--}}
+            {{--        let mimetype = elm.target.bodyElement.dataset.cmsMimetype;--}}
 
-        $('#text_html').tinymce({ height: 500, /* other settings... */ });
+            {{--        $.ajax('/cms/tag/direct/' + app + '/' + id, {--}}
+            {{--            data: {--}}
+            {{--                _method: 'patch',--}}
+            {{--                "_token" : "{{ csrf_token() }}",--}}
+            {{--                'value': editor.getContent(),--}}
+            {{--                'mimetype': mimetype--}}
+            {{--            },--}}
+            {{--            type:'patch',--}}
+            {{--            success: function(){--}}
+            {{--                toastr.success("Updated", "Content");--}}
+            {{--            },--}}
+            {{--            error: function(){--}}
+            {{--                toastr.error("Failed updating", "Content");--}}
+            {{--            }--}}
+            {{--        })--}}
+            {{--    });--}}
+            {{--}--}}
+        };
+        $('#text_html').tinymce({ height: 500, plugins: [
+                'link', 'lists', 'nonbreaking', 'autolink', 'code'
+            ],toolbar: [
+                'undo redo | bold italic underline | fontfamily fontsize | code',
+                'forecolor backcolor | alignleft aligncenter alignright alignfull | numlist bullist outdent indent'
+            ]
+        });
 
         $('.btn.tag.new').on('click', function( e){
             // prefill form with selected options from filter
