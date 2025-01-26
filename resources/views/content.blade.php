@@ -177,7 +177,7 @@
                                         <input type="text" class="text-plain value id_{{ $item->id }}" data-id="{{ $item->id }}" data-mimetype="text/plain" data-value="{{ $item->value }}" value="{{ is_null($item->value) ? $item->default : $item->value }}">
                                     @endif
                                     @if( $item->mimetype === 'text/html')
-                                        <textarea rows="1" class="txt-html value id_{{ $item->id }}" data-id="{{ $item->id }}" data-mimetype="text/html" data-value="{{ $item->value }}">{{ is_null($item->value) ? $item->default : $item->value }}</textarea>
+                                        <textarea rows="1" class="txt-html value id_{{ $item->id }}" data-id="{{ $item->id }}" data-mimetype="text/html" data-value="{{ $item->value }}">{{ is_null($item->value) ? html_entity_decode($item->default) : html_entity_decode($item->value) }}</textarea>
                                     @endif
                                     @if( in_array( strtolower($item->mimetype), ['image/jpg', 'image/jpeg', 'image/png', 'image/svg', 'image/webp',]))
                                         <label class="id_{{ $item->id }}">Original: {{ $item->value }}</label>
@@ -349,6 +349,7 @@
         let user = @json( $user);
         var mdlTextHtml = new bootstrap.Modal(document.getElementById("mdl_text_html"), {});
         var mdlNew = new bootstrap.Modal(document.getElementById("mdl_new"), {});
+
         const config = {
             entity_encoding: "raw",
             license_key: 'gpl',
@@ -396,7 +397,17 @@
             {{--    });--}}
             {{--}--}}
         };
-        $('#text_html').tinymce({ height: 500, plugins: [
+        $('#text_html').tinymce({
+            height: 500,
+            setup: function (editor) {
+                    editor.on('change', function (elm) {
+                        let content = editor.getContent()
+                        // let content = tinymce.get('text_html').getContent();
+                        let id = $("#mdl_text_html .id" ).val()
+                        saveContent( id, content)
+                    })
+            },
+            plugins: [
                 'link', 'lists', 'nonbreaking', 'autolink', 'code'
             ],toolbar: [
                 'undo redo | bold italic underline | fontfamily fontsize | code',
@@ -445,6 +456,7 @@
         })
 
         function saveContent( id, value){
+            console.log("saving...")
             $.ajax({
                 headers : {
                     'X-CSRF-Token' : "{{ csrf_token() }}"
@@ -470,6 +482,7 @@
         })
 
         $('.save_text_html').on('click', function( e){
+            debugger;
             let content = tinymce.get('text_html').getContent();
             let id = $("#mdl_text_html .id" ).val()
             saveContent( id, content)
