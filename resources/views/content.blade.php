@@ -224,6 +224,8 @@
                                     <option value="" selected>@c(['key' => 'select'])</option>
                                     <option value="Select Finance">Select Finance</option>
                                     <option value="VendiFill">VendiFill</option>
+                                    <option value="Cleaning">Cleaning</option>
+                                    <option value="lamigracion">La Migracion</option>
                                 </select>
                             </div>
 

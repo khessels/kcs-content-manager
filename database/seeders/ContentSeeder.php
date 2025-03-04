@@ -97,6 +97,45 @@ class ContentSeeder extends Seeder
         $content['mimetype']    = 'text/plain';
         $contents[] = $content;
 
+        $content['app']         = 'Cleaning';
+        $content['key']         = 'en';
+        $content['env']         = 'production';
+        $content['env_source']  = 'seed';
+        $content['value']       = 'English';
+        $content['default']     = 'English';
+        $content['language']    = 'es';
+        $content['mimetype']    = 'text/plain';
+        $contents[] = $content;
+
+        $content['app']         = 'Cleaning';
+        $content['key']         = 'es';
+        $content['env']         = 'production';
+        $content['env_source']  = 'seed';
+        $content['value']       = 'Español';
+        $content['default']     = 'Español';
+        $content['language']    = 'es';
+        $content['mimetype']    = 'text/plain';
+        $contents[] = $content;
+
+        $content['app']         = 'Cleaning';
+        $content['key']         = 'en';
+        $content['env']         = 'production';
+        $content['env_source']  = 'seed';
+        $content['value']       = 'English';
+        $content['default']     = 'English';
+        $content['language']    = 'en';
+        $content['mimetype']    = 'text/plain';
+        $contents[] = $content;
+
+        $content['app']         = 'Cleaning';
+        $content['key']         = 'es';
+        $content['env']         = 'production';
+        $content['env_source']  = 'seed';
+        $content['value']       = 'Español';
+        $content['default']     = 'Español';
+        $content['language']    = 'es';
+        $content['mimetype']    = 'text/plain';
+        $contents[] = $content;
         return $contents;
     }
     public function run(): void
