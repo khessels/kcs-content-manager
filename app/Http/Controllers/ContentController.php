@@ -31,12 +31,12 @@ class ContentController extends Controller
             error_log(" 2" );
             error_log( print_r( $all, true ) );
 
-        if( ! empty( $content)){
-            $content->value = base64_decode( $all[ 'value']);
-            $content->save();
-        }
-        error_log(" 3" );
-        return 'OK';
+            if( ! empty( $content)){
+                $content->value = base64_decode( $all[ 'value']);
+                $content->save();
+            }
+            error_log(" 3" );
+            return 'OK';
 
         }catch(\Exception $e){
             error_log( $e->getMessage() );
@@ -321,5 +321,6 @@ class ContentController extends Controller
         }catch(\Exception $e){
             error_log( $e->getMessage());
         }
+        return 'ERROR: ' . $e->getMessage();
     }
 }
