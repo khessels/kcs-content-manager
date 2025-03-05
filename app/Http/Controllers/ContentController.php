@@ -23,12 +23,24 @@ use Illuminate\View\View;
 class ContentController extends Controller
 {
     public function updateTagDirect( Request $request, $app, $id){
-        $content = Content::where( 'id', $id)->where('app', $app)->first();
+        try{
+            $content = Content::where( 'id', $id)->where('app', $app)->first();
+            error_log(" 1" );
+            error_log( print_r( $content, true ) );
+            error_log(" 2" );
+            error_log( print_r( $request->all(), true ) );
+
         if( ! empty( $content)){
             $content->value = base64_decode( $request->value);
             $content->save();
         }
+        error_log(" 3" );
         return 'OK';
+
+        }catch(\Exception $e){
+            error_log( $e->getMessage() );
+        }
+        return 'ERROR';
     }
     public function db_delete( Request $request){
         $app = $request->header('x-app');
