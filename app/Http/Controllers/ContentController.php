@@ -25,7 +25,7 @@ class ContentController extends Controller
     public function updateTagDirect( Request $request, $app, $id){
         $content = Content::where( 'id', $id)->where('app', $app)->first();
         if( ! empty( $content)){
-            $content->value = $request->value;
+            $content->value = base64_decode( $request->value);
             $content->save();
         }
         return 'OK';
