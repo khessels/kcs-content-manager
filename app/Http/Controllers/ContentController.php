@@ -26,13 +26,16 @@ class ContentController extends Controller
         try{
             $all = $request->all();
             $content = Content::where( 'id', $id)->where('app', $app)->first();
+            if( empty($content) ){
+                return 'Content not found';
+            }
             error_log(" 1" );
             error_log( print_r( $content, true ) );
             error_log(" 2" );
             error_log( print_r( $all, true ) );
 
             if( ! empty( $content)){
-                $content->value = base64_decode( $all[ 'value']);
+                $content->value = $all[ 'value'];
                 $content->save();
             }
             error_log(" 3" );
