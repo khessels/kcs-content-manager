@@ -24,14 +24,15 @@ class ContentController extends Controller
 {
     public function updateTagDirect( Request $request, $app, $id){
         try{
+            $all = $request->all();
             $content = Content::where( 'id', $id)->where('app', $app)->first();
             error_log(" 1" );
             error_log( print_r( $content, true ) );
             error_log(" 2" );
-            error_log( print_r( $request->all(), true ) );
+            error_log( print_r( $all, true ) );
 
         if( ! empty( $content)){
-            $content->value = base64_decode( $request->value);
+            $content->value = base64_decode( $all[ 'value']);
             $content->save();
         }
         error_log(" 3" );
@@ -40,7 +41,7 @@ class ContentController extends Controller
         }catch(\Exception $e){
             error_log( $e->getMessage() );
         }
-        return 'ERROR';
+        return 'ERROR: '. $e->getMessage();
     }
     public function db_delete( Request $request){
         $app = $request->header('x-app');
