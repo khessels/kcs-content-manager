@@ -35,7 +35,7 @@ class ContentController extends Controller
             error_log( print_r( $all, true ) );
 
             if( ! empty( $content)){
-                $content->value = $all[ 'value'];
+                $content->value = base64_decode( $all[ 'value']);
                 $content->save();
             }
             error_log(" 3" );
