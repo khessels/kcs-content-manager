@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $status
  * @property string $page
  * @property string|null $template
+ * @property array|null $properties
  * @property string|null $roles
  * @property string $env
  * @property string $env_source
@@ -40,6 +41,7 @@ class Page extends Model
 	protected $casts = [
 		'parent_id' => 'int',
 		'user_id' => 'int',
+		'properties' => 'json',
 		'publish_at' => 'datetime',
 		'expire_at' => 'datetime',
 		'last_seen_at' => 'datetime'
@@ -52,6 +54,7 @@ class Page extends Model
 		'status',
 		'page',
 		'template',
+		'properties',
 		'roles',
 		'env',
 		'env_source',

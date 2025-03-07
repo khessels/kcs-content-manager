@@ -26,6 +26,7 @@ return new class extends Migration
             $table->enum('status', ['ACTIVE', 'INACTIVE'])->default('ACTIVE')->nullable( false);
             $table->string( 'page')->nullable(false);
             $table->string( 'template')->nullable(true);
+            $table->json( 'properties')->nullable(true);
             $table->string( 'roles')->nullable(true)->default('public');
             $table->enum( 'env', ['local','production'])->nullable(false)->default('local');
             $table->string( 'env_source')->nullable(false)->default('unknown');

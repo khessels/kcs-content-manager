@@ -27,9 +27,10 @@ class PageController extends Controller
     {
         try{
             $all = $request->all();
-            if( ! $request->headers->has('app')) {
+            if( ! $request->headers->has('x-app')) {
                 return 'ERROR: No app specified';
             }
+
             $xDev = $request->header('x-dev');
             $xApp = $request->header('x-app');
 
@@ -53,7 +54,7 @@ class PageController extends Controller
     }
     public function remove_page(Request $request, $page)
     {
-        if( ! $request->headers->has('app')) {
+        if( ! $request->headers->has('x-app')) {
             return 'ERROR: No app specified';
         }
         $xApp = $request->header('x-app');
@@ -67,7 +68,7 @@ class PageController extends Controller
     }
     public function get_page(Request $request, $page)
     {
-        if( ! $request->headers->has('app')) {
+        if( ! $request->headers->has('x-app')) {
             return 'ERROR: No app specified';
         }
         $xApp = $request->header('x-app');
@@ -78,7 +79,7 @@ class PageController extends Controller
     }
     public function list(Request $request, $filter = 'ALL')
     {
-        if( ! $request->headers->has('app')) {
+        if( ! $request->headers->has('x-app')) {
             return 'ERROR: No app specified';
         }
         $xApp = $request->header('x-app');
@@ -89,7 +90,7 @@ class PageController extends Controller
     }
     public function active_state(Request $request, $page, $state)
     {
-        if( ! $request->headers->has('app')) {
+        if( ! $request->headers->has('x-app')) {
             return 'ERROR: No app specified';
         }
         $xApp = $request->header('x-app');
