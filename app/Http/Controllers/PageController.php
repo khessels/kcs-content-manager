@@ -43,6 +43,7 @@ class PageController extends Controller
             if( $request->has('status')){
                 $all['status'] = $request->status;
             }
+            error_log( print_r($all, true));
             Page::create( $all);
             return 'OK';
         }catch(\Exception $e){
