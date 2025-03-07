@@ -484,7 +484,6 @@
         })
 
         $('.save_text_html').on('click', function( e){
-            debugger;
             let content = tinymce.get('text_html').getContent();
             let id = $("#mdl_text_html .id" ).val()
             saveContent( id, content)
