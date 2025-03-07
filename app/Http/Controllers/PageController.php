@@ -25,25 +25,30 @@ class PageController extends Controller
     }
     public function add_page(Request $request)
     {
-        $all = $request->all();
-        if( ! $request->headers->has('app')) {
-            return 'ERROR: No app specified';
-        }
-        $xDev = $request->header('x-dev');
-        $xApp = $request->header('x-app');
+        try{
+            $all = $request->all();
+            if( ! $request->headers->has('app')) {
+                return 'ERROR: No app specified';
+            }
+            $xDev = $request->header('x-dev');
+            $xApp = $request->header('x-app');
 
-        $all['app'] = $xApp;
-        $all['env_source'] = $xDev;
-        $all['env'] = 'local';
-        if( $request->has('env')){
-            $all['env'] = $request->env;
+            $all['app'] = $xApp;
+            $all['env_source'] = $xDev;
+            $all['env'] = 'local';
+            if( $request->has('env')){
+                $all['env'] = $request->env;
+            }
+            $all['status'] = 'ACTIVE';
+            if( $request->has('status')){
+                $all['status'] = $request->status;
+            }
+            Page::create( $all);
+            return 'OK';
+        }catch(\Exception $e){
+            error_log($e->getMessage());
+            return 'ERROR: ' . $e->getMessage();
         }
-        $all['status'] = 'ACTIVE';
-        if( $request->has('status')){
-            $all['status'] = $request->status;
-        }
-        Page::create( $all);
-        return 'OK';
     }
     public function remove_page(Request $request, $page)
     {
