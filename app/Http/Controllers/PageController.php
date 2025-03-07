@@ -25,12 +25,23 @@ class PageController extends Controller
     }
     public function add_page(Request $request)
     {
+        $all = $request->all();
         if( ! $request->headers->has('app')) {
             return 'ERROR: No app specified';
         }
-        $app = $request->headers->get('app');
-        $all = $request->all();
-        $all['app'] = $app;
+        $xDev = $request->header('x-dev');
+        $xApp = $request->header('x-app');
+
+        $all['app'] = $xApp;
+        $all['env_source'] = $xDev;
+        $all['env'] = 'local';
+        if( $request->has('env')){
+            $all['env'] = $request->env;
+        }
+        $all['status'] = 'ACTIVE';
+        if( $request->has('status')){
+            $all['status'] = $request->status;
+        }
         Page::create( $all);
         return 'OK';
     }
@@ -39,11 +50,12 @@ class PageController extends Controller
         if( ! $request->headers->has('app')) {
             return 'ERROR: No app specified';
         }
-        $app = $request->headers->get('app');
+        $xApp = $request->header('x-app');
+
         if( isNumeric( $page)){
-            Page::where('id', $page)->where('app', $app)->delete();
+            Page::where('id', $page)->where('app', $xApp)->delete();
         }else{
-            Page::where('page', $page)->where('app', $app)->delete();
+            Page::where('page', $page)->where('app', $xApp)->delete();
         }
         return 'OK';
     }
@@ -52,33 +64,33 @@ class PageController extends Controller
         if( ! $request->headers->has('app')) {
             return 'ERROR: No app specified';
         }
-        $app = $request->headers->get('app');
+        $xApp = $request->header('x-app');
         if( isNumeric( $page)){
-            return Page::where('id', $page)->where('app', $app)->first();
+            return Page::where('id', $page)->where('app', $xApp)->first();
         }
-        return Page::where('page', $page)->where('app', $app)->first();
+        return Page::where('page', $page)->where('app', $xApp)->first();
     }
     public function list(Request $request, $filter = 'ALL')
     {
         if( ! $request->headers->has('app')) {
             return 'ERROR: No app specified';
         }
-        $app = $request->headers->get('app');
+        $xApp = $request->header('x-app');
         if( strtoupper($filter) === 'ALL' ){
-            return Page::where( 'app', $app)->get();
+            return Page::where( 'app', $xApp)->get();
         }
-        return Page::where( 'status', $filter)->where( 'app', $app)->get();
+        return Page::where( 'status', $filter)->where( 'app', $xApp)->get();
     }
     public function active_state(Request $request, $page, $state)
     {
         if( ! $request->headers->has('app')) {
             return 'ERROR: No app specified';
         }
-        $app = $request->headers->get('app');
+        $xApp = $request->header('x-app');
         if( isNumeric( $page)){
-            $o = Page::where('id', $page)->where('app', $app)->first();
+            $o = Page::where('id', $page)->where('app', $xApp)->first();
         }else{
-            $o = Page::where('page', $page)->where('app', $app)->first();
+            $o = Page::where('page', $page)->where('app', $xApp)->first();
         }
         $o->status = $state;
         $o->save();
