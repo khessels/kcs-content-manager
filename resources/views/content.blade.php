@@ -358,6 +358,7 @@
             selector: '.cms',
             menubar: true,
             inline: true,
+            convert_urls:false,
             plugins: [
                 'link', 'lists', 'nonbreaking', 'autolink', 'code'
             ],
@@ -401,6 +402,7 @@
         };
         $('#text_html').tinymce({
             height: 500,
+            convert_urls:false,
             setup: function (editor) {
                     editor.on('change', function (elm) {
                         let content = editor.getContent()
@@ -558,6 +560,10 @@
             }
             saveContent( id, value)
         })
-
+        document.addEventListener('focusin', function (e) {
+            if (e.target.closest('.tox-tinymce-aux, .moxman-window, .tam-assetmanager-root') !== null) {
+                e.stopImmediatePropagation();
+            }
+        });
     </script>
 </x-app-layout>
