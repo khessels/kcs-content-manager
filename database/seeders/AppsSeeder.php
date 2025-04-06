@@ -51,17 +51,36 @@ class AppsSeeder extends Seeder
         $app['status']  = 'Active';
         $apps[] = $app;
 
-        $app['id'] = 8;
+        $app['id'] = 7;
         $app['user_id'] = 1;
         $app['name']    = 'Cleaning';
         $app['status']  = 'Active';
         $apps[] = $app;
 
-        $app['id'] = 7;
+        $app['id'] = 8;
         $app['user_id'] = 1;
         $app['name']    = 'lamigracion';
         $app['status']  = 'Active';
         $apps[] = $app;
+
+        $app['id'] = 9;
+        $app['user_id'] = 1;
+        $app['name']    = 'offshore2';
+        $app['status']  = 'Active';
+        $apps[] = $app;
+
+        $app['id'] = 10;
+        $app['user_id'] = 1;
+        $app['name']    = 'travel';
+        $app['status']  = 'Active';
+        $apps[] = $app;
+
+        $app['id'] = 11;
+        $app['user_id'] = 1;
+        $app['name']    = 'myshop2';
+        $app['status']  = 'Active';
+        $apps[] = $app;
+
         foreach( $apps as $app){
             App::create( $app );
         }
@@ -114,6 +133,18 @@ class AppsSeeder extends Seeder
         $kv['key'] = 'available_locales';
         $kv['value'] = 'en,es,nl';
         $kv['app_id'] = 8;
+        $kvs[] = $kv;
+
+        $kv['topic'] = 'config';
+        $kv['key'] = 'available_locales';
+        $kv['value'] = 'en,es,nl';
+        $kv['app_id'] = 9;
+        $kvs[] = $kv;
+
+        $kv['topic'] = 'config';
+        $kv['key'] = 'available_locales';
+        $kv['value'] = 'en,es,nl';
+        $kv['app_id'] = 10;
         $kvs[] = $kv;
 
         foreach( $kvs as $kv){

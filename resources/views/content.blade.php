@@ -226,6 +226,10 @@
                                     <option value="VendiFill">VendiFill</option>
                                     <option value="Cleaning">Cleaning</option>
                                     <option value="lamigracion">La Migracion</option>
+                                    <option value="offshore2">offshore2</option>
+                                    <option value="travel">travel</option>
+                                    <option value="travel">myshop2</option>
+
                                 </select>
                             </div>
 
