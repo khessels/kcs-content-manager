@@ -159,7 +159,7 @@
                             <tr>
                                 <td>
                                     <input type="checkbox" value="{{ $item->id }}" ><br>
-                                    <a href="javascript:void(0)" class="duplicate" data-id="{{ $item->id }}" data-mimetype="text/plain" data-value="{{ $item->value }}" style="text-decoration: underline">
+                                    <a href="javascript:void(0)" class="duplicate" data-id="{{ $item->id }}" data-mimetype="{{ $item->mimetype }}" data-value="{{ $item->value }}" style="text-decoration: underline">
                                         @c(['key' => 'duplicate'])
                                     </a>
                                 </td>
@@ -205,7 +205,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <form id="frm_tag" method="POST">
-                    <input type="hidden" name="_method" value="POST">
+                    <input type="hidden" class="method" name="_method" value="POST">
                     @csrf
                     <div class="modal-header">
                         <h5 class="modal-title">New tag</h5>
@@ -406,6 +406,7 @@
         };
         $('#text_html').tinymce({
             height: 500,
+            license_key: 'gpl',
             convert_urls:false,
             setup: function (editor) {
                     editor.on('change', function (elm) {
@@ -423,7 +424,7 @@
             ]
         });
 
-        $('.btn.tag.new').on('click', function( e){
+        body.on('click', '.btn.tag.new', function( e){
             // prefill form with selected options from filter
             $('.filter-element').each(function(index, elm){
                 let tagName = elm.tagName;
@@ -450,16 +451,17 @@
                     $( '#mdl_new').find( '.value').val( val)
                 }
             }
+            //$('#mdl_new .method').val('PUT')
         }
 
-        $('.duplicate').on('click', function( e){
+        body.on('click', '.duplicate', function( e){
             // prefill form with selected options from current tag
             let id = parseInt( this.dataset.id);
             let tag = content.find(obj => {
                 return obj.id === id
             })
             duplicate( tag)
-
+            $("#mdl_new .id" ).val( '')
             mdlNew.show();
         })
 
@@ -489,7 +491,7 @@
             mdlTextHtml.show();
         })
 
-        $('.save_text_html').on('click', function( e){
+        body.on('click', '.save_text_html', function( e){
             let content = tinymce.get('text_html').getContent();
             let id = $("#mdl_text_html .id" ).val()
             saveContent( id, content)
@@ -528,7 +530,7 @@
                 type : 'DELETE'
             });
         }
-        $('#btn_action').on('click', function( e){
+        body.on('click', '#btn_action', function( e){
             e.preventDefault;
             let action = $('#sel_actions').val();
             switch( action){

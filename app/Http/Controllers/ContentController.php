@@ -90,8 +90,7 @@ class ContentController extends Controller
                 }
             }else{
                 unset( $all['id']);
-                $all = array_values( $all);
-                $content = Content::where( 'id', $request->id)->update( $all);
+                $content = Content::where( 'id', $all['id'])->update( $all);
             }
             $content->save();
         }catch(\Exception $e){
