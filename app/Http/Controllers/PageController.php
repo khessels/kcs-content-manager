@@ -58,12 +58,7 @@ class PageController extends Controller
             return 'ERROR: No app specified';
         }
         $xApp = $request->header('x-app');
-
-        if( isNumeric( $page)){
-            Page::where('id', $page)->where('app', $xApp)->delete();
-        }else{
-            Page::where('page', $page)->where('app', $xApp)->delete();
-        }
+        Page::where('page', $page)->where('app', $xApp)->delete();
         return 'OK';
     }
     public function get_page(Request $request, $page)
