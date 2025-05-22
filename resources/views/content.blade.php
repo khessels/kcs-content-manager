@@ -14,7 +14,7 @@
                         <div class="row">
                             <div class="col6">
                                 @c(['key' => 'App']):
-                                <select id="app" name="app" class="filter-element">
+                                <select id="app" name="app" class="form-select filter-element">
                                     <option value="">@c(['key' => 'select'])</option>
                                     @foreach( $apps as $app)
                                         <option {{ ! empty( $filters['app']) ? (strtolower( $app->name) == strtolower( $filters['app']) ? 'selected' : '') : ''}} value="{{ $app->name }}">{{ $app->name }}</option>
@@ -25,7 +25,7 @@
                         <div class="row">
                             <div class="col-2">
                                 <label for="language" class="form-label">@c(['key' => 'language'])</label>
-                                <select name="language" id="language" class="filter-element">
+                                <select name="language" id="language" class="form-select filter-element">
                                     <option value="" >@c(['key' => 'select'])</option>
                                     <option value="all" >@c(['key' => 'all'])</option>
                                     @foreach( $locales as $locale)
@@ -34,12 +34,12 @@
                                 </select>
                             </div>
                             <div class="col-2">
-                                <label for="user_id" class="form-label">@c(['key' => 'page'])</label>
-                                <input type="text" class="form-control filter-element" id="page" name="page" value="{{ ! empty( $filters['page']) ?  $filters['page'] : '' }}">
+                                <label for="page" class="form-label">@c(['key' => 'page'])</label>
+                                <input class="form-control filter-element" type="text" id="page" name="page" value="{{ ! empty( $filters['page']) ?  $filters['page'] : '' }}">
                             </div>
                             <div class="col-2">
-                                <label for="app" class="form-label">@c(['key' => 'status'])</label><br>
-                                <select name="status" id="status" class="filter-element">
+                                <label for="status" class="form-label">@c(['key' => 'status'])</label><br>
+                                <select name="status" id="status" class="form-select filter-element">
                                     <option {{ ! empty( $filters['status']) ? ( '' == strtolower( $filters['status']) ? 'selected' : '') : 'selected' }} value="" >@c(['key' => 'select'])</option>
                                     <option {{ ! empty( $filters['status']) ? ( 'active' == strtolower( $filters['status']) ? 'selected' : '') : '' }} value="active">@c(['key' => 'active'])</option>
                                     <option {{ ! empty( $filters['status']) ? ( 'inactive' == strtolower( $filters['status']) ? 'selected' : '') : '' }} value="inactive">@c(['key' => 'inactive'])</option>
@@ -66,7 +66,7 @@
                             </div>
                             <div class="col-2">
                                 <label for="mimetype" class="form-label">@c(['key' => 'mimetype'])</label>
-                                <select name="mimetype" id="mimetype" class="filter-element">
+                                <select name="mimetype" id="mimetype" class="form-select filter-element">
                                     <option value="" {{ ! empty( $filters['mimetype']) ? ( '' == strtolower( $filters['mimetype']) ? 'selected' : '') : 'selected' }}>@c(['key' => 'select'])</option>
                                     @foreach( $mimetypes as $mimetype)
                                         <option value="{{ $mimetype->mimetype }}" {{ ! empty( $filters['mimetype']) ? ( $mimetype->mimetype == strtolower( $filters['mimetype']) ? 'selected' : '') : '' }}>{{ $mimetype->mimetype}}</option>
@@ -76,7 +76,7 @@
 
                             <div class="col-2">
                                 <label for="env_source" class="form-label">@c(['key' => 'env_source'])</label>
-                                <select name="env_source" id="env_source" class="filter-element">
+                                <select name="env_source" id="env_source" class="form-select filter-element">
                                     <option value="" {{ ! empty( $filters['env_source']) ? ( '' == strtolower( $filters['env_source']) ? 'selected' : '') : 'selected' }}>@c(['key' => 'select'])</option>
                                     <option value="unknown" {{ ! empty( $filters['env_source']) ? ( 'unknown' == strtolower( $filters['env_source']) ? 'selected' : '') : '' }}>Unknown</option>
                                     <option value="kees.hessels@gmail.com" {{ ! empty( $filters['env_source']) ? ( 'kes.hessels@gmail.com' == strtolower( $filters['env_source']) ? 'selected' : '') : '' }}>kees.hessels@gmail.com</option>
@@ -94,7 +94,7 @@
                             </div>
                             <div class="col-2">
                                 <label for="env" class="form-label">@c(['key' => 'env'])</label><br>
-                                <select name="env" id="env" class="filter-element">
+                                <select name="env" id="env" class="form-select filter-element">
                                     <option value="" {{ ! empty( $filters['env']) ? ( '' == strtolower( $filters['env']) ? 'selected' : '') : 'selected' }}>@c(['key' => 'select'])</option>
                                     <option value="local" {{ ! empty( $filters['env']) ? ( 'local' == strtolower( $filters['env']) ? 'selected' : '') : '' }}>@c(['key' => 'local'])</option>
                                     <option value="production" {{ ! empty( $filters['env']) ? ( 'production' == strtolower( $filters['env']) ? 'selected' : '') : '' }}>@c(['key' => 'production'])</option>
@@ -166,7 +166,17 @@
                                 <td>{{ $item->id ?? '-'}}</td>
                                 <td>{{ $item->parent_id ?? '-'}}</td>
                                 <td>{{ $item->user_id ?? '-'}}</td>
-                                <td>{{ $item->status}}</td>
+                                <td>
+                                    <select class='form-select item-status' name="status" id="status" data-id="{{ $item->id}}">
+                                        @if( $item->status === 'ACTIVE')
+                                            <option value='ACTIVE' selected>Active</option>
+                                            <option value='INACTIVE'>Inactive</option>
+                                        @else
+                                            <option value='ACTIVE'>Active</option>
+                                            <option value='INACTIVE' selected>Inactive</option>
+                                        @endif
+                                    </select>
+                                </td>
                                 <td>{{ $item->page ?? '-'}}</td>
                                 <td>{{ $item->language ?? '-'}}</td>
                                 <td>
@@ -174,10 +184,10 @@
                                 </td>
                                 <td>
                                     @if( $item->mimetype === 'text/plain')
-                                        <input type="text" class="text-plain value id_{{ $item->id }}" data-id="{{ $item->id }}" data-mimetype="text/plain" data-value="{{ $item->value }}" value="{{ is_null($item->value) ? $item->default : $item->value }}">
+                                        <input type="text" class="form-control text-plain value id_{{ $item->id }}" data-id="{{ $item->id }}" data-mimetype="text/plain" data-value="{{ $item->value }}" value="{{ is_null($item->value) ? $item->default : $item->value }}">
                                     @endif
                                     @if( $item->mimetype === 'text/html')
-                                        <textarea rows="1" class="txt-html value id_{{ $item->id }}" data-id="{{ $item->id }}" data-mimetype="text/html" data-value="{{ $item->value }}">{{ is_null($item->value) ? html_entity_decode($item->default) : html_entity_decode($item->value) }}</textarea>
+                                        <textarea rows="1" class="form-control txt-html value id_{{ $item->id }}" data-id="{{ $item->id }}" data-mimetype="text/html" data-value="{{ $item->value }}">{{ is_null($item->value) ? html_entity_decode($item->default) : html_entity_decode($item->value) }}</textarea>
                                     @endif
                                     @if( in_array( strtolower($item->mimetype), ['image/jpg', 'image/jpeg', 'image/png', 'image/svg', 'image/webp',]))
                                         <label class="id_{{ $item->id }}">Original: {{ $item->value }}</label>
@@ -355,6 +365,28 @@
         let user = @json( $user);
         var mdlTextHtml = new bootstrap.Modal(document.getElementById("mdl_text_html"), {});
         var mdlNew = new bootstrap.Modal(document.getElementById("mdl_new"), {});
+
+        body.on('change', '.item-status', function(){
+            let id = this.dataset.id
+            let val = this.value
+            //console.log( val + ", " + id)
+            $.ajax({
+                headers : {
+                    'X-CSRF-Token' : "{{ csrf_token() }}"
+                },
+                success : function( data) {
+                    toastr.success( "Item status changed")
+                    console.log( "Item status changed")
+                },
+                error: function (a, b, c){
+                    toastr.error( a)
+                    console.log( a)
+                },
+                url : '/content/' + id + "/status/" + val,
+                type : 'PATCH'
+            });
+
+        })
 
         const config = {
             entity_encoding: "raw",

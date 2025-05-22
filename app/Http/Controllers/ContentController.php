@@ -22,6 +22,17 @@ use Illuminate\View\View;
 
 class ContentController extends Controller
 {
+    public function changeStatus( Request $request, $id, $status){
+        try{
+            $content = Content::where( 'id', $id)->first();
+            $content->status = $status;
+            $content->save();
+            return response("OK");
+        }catch(\Exception $e){
+            error_log( $e->getMessage() );
+        }
+        return 'ERROR: '. $e->getMessage();
+    }
     public function updateTagDirect( Request $request, $app, $id){
         try{
             $all = $request->all();

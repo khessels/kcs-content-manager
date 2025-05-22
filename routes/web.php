@@ -23,6 +23,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/', [ContentController::class, 'deleteContentItems']);
         Route::get('/', [ContentController::class, 'view'])->name('view.content');
         Route::put('/{id}', [ContentController::class, 'changeContent'])->name('put.content');
+        Route::patch('/{id}/status/{status}', [ContentController::class, 'changeStatus'])->name('patch.status');
         Route::post('/', [ContentController::class, 'store']);
         Route::put('/', [ContentController::class, 'update']);
     });
