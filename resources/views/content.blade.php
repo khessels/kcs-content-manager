@@ -238,8 +238,8 @@
                                     <option value="lamigracion">La Migracion</option>
                                     <option value="offshore2">offshore2</option>
                                     <option value="travel">travel</option>
-                                    <option value="travel">myshop2</option>
-
+                                    <option value="myshop2">myshop2</option>
+                                    <option value="batavia">Batavia</option>
                                 </select>
                             </div>
 
