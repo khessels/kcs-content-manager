@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use App\Models\PersonalAccessToken;
 
 class User extends Authenticatable
 {
@@ -48,4 +49,8 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function tokens()
+	{
+		return $this->hasMany( PersonalAccessToken::class, 'user_id', 'id');
+	}
 }

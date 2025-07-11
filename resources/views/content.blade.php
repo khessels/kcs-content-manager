@@ -369,7 +369,6 @@
         body.on('change', '.item-status', function(){
             let id = this.dataset.id
             let val = this.value
-            //console.log( val + ", " + id)
             $.ajax({
                 headers : {
                     'X-CSRF-Token' : "{{ csrf_token() }}"

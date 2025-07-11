@@ -17,25 +17,68 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\View\View;
-use Laravel\Sanctum\PersonalAccessToken;
+use App\Models\PersonalAccessToken;
 
 class ApplicationController extends Controller
 {
-    public function listTokens( Request $request){
-        $userAppsIds = App::where('user_id', Auth::id())->get()->pluck('id')->toArray();
-        $tokens = PersonalAccessToken::whereIn( 'tokenable_id', $userAppsIds)->get();
-        return [ 'tokens' => $tokens];
+    public function testUser( Request $request){
+        $user = $request->user();
+        return [ 'data' => $user];
     }
 
-    public function createToken( Request $request){
+    public function testApp( Request $request){
+        return [ 'data' => $request->app];
+    }
+
+    public function listTokens( Request $request){
+        $PATs = Auth::user()->tokens;
+        return [ 'tokens' => $PATs];
+    }
+
+    public function createAppToken( Request $request){
         try{
             $all = $request->all();
-            $app = $request->app;
-            $id = Auth::id();
-            $app = App::where( 'name', $app)->where('user_id', $id)->first();
+            $appName = $request->app;
+            $user = $request->user();
+            $app = App::where( 'name', $appName)->where('user_id', $user->id)->first();
             $abilities = [ 'access:full'];
-            $token = $app->createToken($app->name, $abilities);
+            $token = $app->createToken( $app->name, $abilities);
+            $token->accessToken->forceFill([
+                'user_id' => $user->id,
+            ])->save();
+            if( ! empty( $request->description)){
+                $token->accessToken->forceFill([
+                    'description' => $request->description,
+                ])->save();
+            }
             return ['token' => $token->plainTextToken];
+        }catch(\Exception $e){
+            error_log( $e->getMessage());
+        }
+        return false;
+    }
+    public function createUserToken( Request $request){
+        try{
+            $all = $request->all();
+            //$user = $request->user();
+            $user = User::where( 'id', Auth::id())->first();
+            if( empty( $user)){
+                return false;
+            }
+            $abilities = [ 'access:full'];
+            $token = $user->createToken( $user->name, $abilities);
+            if( empty( $token)){
+                return false;
+            }
+            $token->accessToken->forceFill( [
+                'user_id' => $user->id,
+            ])->save();
+            if( ! empty( $request->description)){
+                $token->accessToken->forceFill( [
+                    'description' => $request->description,
+                ])->save();
+            }
+            return [ 'token' => $token->plainTextToken];
         }catch(\Exception $e){
             error_log( $e->getMessage());
         }
@@ -62,20 +105,32 @@ class ApplicationController extends Controller
     public function view( Request $request): View
     {
         $filters = $request->all();
+        $user = User::where('id', Auth::id())->with('tokens')->first();
         $query = App::query();
-
         if( ! empty( $filters['name'])){
             $query->where( 'name', $filters['name']);
         }
         $query->where( 'status', 'ACTIVE');
         $query->where( 'user_id', Auth::id());
         $apps = $query->get();
-
+        $tokens = $request->user()->tokens;
         return view('applications')
             ->with(compact('filters'))
+            ->with('tokens', $user->tokens)
             ->with('apps', $apps);
     }
-
+    public function deleteTokens( Request $request): RedirectResponse
+    {
+        $ids = explode( ',', $request->input('ids'));
+        if( empty( $ids)){
+            return Redirect::back()->with('error', 'No token ID\'s provided');
+        }
+        foreach( $ids as $id){
+            $token = PersonalAccessToken::find( $id);
+            $token->delete();
+        }
+        return Redirect::back()->with('success', 'Token deleted successfully');
+    }
     public function listProduction( Request $request)
     {
         if( empty( $request->header('x-app'))){

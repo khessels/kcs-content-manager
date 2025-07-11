@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Http\Request;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\ContentController;
 use App\Http\Controllers\LanguagesController;
@@ -28,6 +28,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::put('/', [ContentController::class, 'update']);
     });
     Route::post('/resource', [ResourceController::class, 'upload']);
+
+    Route::group(['prefix' => 'token'], function () {
+        Route::post('app/create', [ApplicationController::class, 'createAppToken'])->name('token.app.create');
+        Route::post('user/create', [ApplicationController::class, 'createUserToken'])->name('token.user.create');
+    });
+    Route::group(['prefix' => 'token'], function () {
+        Route::post('app/create', [ApplicationController::class, 'createAppToken'])->name('token.app.create');
+        Route::post('user/create', [ApplicationController::class, 'createUserToken'])->name('token.user.create');
+    });
+    Route::group(['prefix' => 'tokens'], function () {
+        Route::delete('/', [ApplicationController::class, 'deleteTokens'])->name('tokens.list');
+    });
+
 });
 
 Route::middleware('auth')->group(function () {
@@ -37,10 +50,6 @@ Route::middleware('auth')->group(function () {
         Route::delete('/', [ProfileController::class, 'destroy'])->name('profile.destroy');
     });
 });
-Route::group(['prefix' => 'token'], function () {
-    Route::post('create', [ApplicationController::class, 'createToken'])->name('token.create');
-});
-Route::group(['prefix' => 'tokens'], function () {
-    Route::get('/', [ApplicationController::class, 'listTokens'])->name('tokens.list');
-});
+
+
 require __DIR__.'/auth.php';

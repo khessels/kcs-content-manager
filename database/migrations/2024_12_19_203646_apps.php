@@ -38,6 +38,7 @@ return new class extends Migration
             $table->json( 'properties')->nullable(true);
             $table->timestamps();
         });
+
         Schema::create('app_kv_store', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('parent_id')->nullable( true);
