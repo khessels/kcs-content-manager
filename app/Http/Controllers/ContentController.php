@@ -22,6 +22,10 @@ use Illuminate\View\View;
 
 class ContentController extends Controller
 {
+    public function helo( Request $request){
+        return 'Hello world';
+    }
+
     public function changeStatus( Request $request, $id, $status){
         try{
             $content = Content::where( 'id', $id)->first();
@@ -33,6 +37,7 @@ class ContentController extends Controller
         }
         return 'ERROR: '. $e->getMessage();
     }
+
     public function updateTagDirect( Request $request, $app, $id){
         try{
             $all = $request->all();

@@ -86,6 +86,13 @@ class AppsSeeder extends Seeder
         $app['name']    = 'batavia';
         $app['status']  = 'Active';
         $apps[] = $app;
+
+        $app['id'] = 13;
+        $app['user_id'] = 1;
+        $app['name']    = 'cm-composer';
+        $app['status']  = 'Active';
+        $apps[] = $app;
+
         foreach( $apps as $app){
             App::create( $app );
         }
@@ -164,6 +171,12 @@ class AppsSeeder extends Seeder
         $kv['app_id'] = 12;
         $kvs[] = $kv;
 
+        $kv['topic'] = 'config';
+        $kv['key'] = 'available_locales';
+        $kv['value'] = 'en,es,nl';
+        $kv['app_id'] = 13;
+        $kvs[] = $kv;
+        
         foreach( $kvs as $kv){
             AppKvStore::create( $kv);
         }
