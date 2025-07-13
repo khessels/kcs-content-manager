@@ -73,7 +73,7 @@
                                     <p>This system is build to give you internationalisation and content management that works for team development and deployment.</p>
                                     <br>
                                     <p>For example, in blade we would use expressions like: {{ __('cms::content.welcome') }} and we (as the programmer) would have to build a corresponding resource file in the correct language.</p>
-                                    <p>So we build a system that lets you use a blade tag like this: <pre>{{!! @c(['editable' => true, 'page' => 'a page or var containing the page name', 'key' => 'main', 'default' => 'some text']) !!}}</pre></p>
+                                    <p>So we build a system that lets you use a blade tag like this: </p>
                                     <p>When we are ready with building our pages, we ask the cms module to scan the files, and collect and send the tags to the cloud, where we can manage it.</p>
 
 
