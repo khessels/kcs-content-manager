@@ -68,13 +68,15 @@
                                 id="docs-card"
                                 class="flex flex-col items-start gap-6 overflow-hidden rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] md:row-span-3 lg:p-10 lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
                             >
+                                <h3>Build Custom Pages. Manage Remotely.</h3>
                                 <div id="screenshot-container" class="relative w-full">
-                                    <p>Finally a cms that combines the main features of wordpress with the power of Laravel.</p>
-                                    <p>This system is build to give you internationalisation and content management that works for team development and deployment.</p>
+
+                                    <p>The Headless CMS for Laravel That Feels Like WordPress—Without the Bloat.
+                                    Create, edit, and localize content-rich pages effortlessly, no clunky interfaces.</p>
                                     <br>
-                                    <p>For example, in blade we would use expressions like: {{ __('cms::content.welcome') }} and we (as the programmer) would have to build a corresponding resource file in the correct language.</p>
-                                    <p>So we build a system that lets you use a blade tag like this: </p>
-                                    <p>When we are ready with building our pages, we ask the cms module to scan the files, and collect and send the tags to the cloud, where we can manage it.</p>
+                                    <p>For example, in blade we would use expressions like: <pre><code>{ { __('cms::content.welcome') } } </code></pre> and we (as the programmer) would have to build a corresponding resource file in the correct language.</p>
+                                    <p>So we build a system that lets you use a blade tag like this: <img class='rounded' src='/storage/images/c_tag.png' ></p>
+                                    <p>When we are ready with building our pages, we ask the cms to scan the files, collect the tags and send the to the cloud, where we can manage them. If we have enabled the editable property, we will also be able to edit them inpage.</p>
 
 
                                 </div>
