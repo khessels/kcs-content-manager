@@ -93,6 +93,12 @@ class AppsSeeder extends Seeder
         $app['status']  = 'Active';
         $apps[] = $app;
 
+        $app['id'] = 14;
+        $app['user_id'] = 1;
+        $app['name']    = 'KCS Content Manager';
+        $app['status']  = 'Active';
+        $apps[] = $app;
+
         foreach( $apps as $app){
             App::create( $app );
         }
@@ -176,7 +182,12 @@ class AppsSeeder extends Seeder
         $kv['value'] = 'en,es,nl';
         $kv['app_id'] = 13;
         $kvs[] = $kv;
-        
+
+        $kv['topic'] = 'config';
+        $kv['key'] = 'available_locales';
+        $kv['value'] = 'en,es';
+        $kv['app_id'] = 14;
+        $kvs[] = $kv;
         foreach( $kvs as $kv){
             AppKvStore::create( $kv);
         }

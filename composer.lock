@@ -1211,12 +1211,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/khessels/cms.git",
-                "reference": "1728d8c4d78cf09ac24e980ec4f9c3e03ad0c90f"
+                "reference": "b8876d69153e81fa279ace06264a05bc8cae3bfe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/khessels/cms/zipball/1728d8c4d78cf09ac24e980ec4f9c3e03ad0c90f",
-                "reference": "1728d8c4d78cf09ac24e980ec4f9c3e03ad0c90f",
+                "url": "https://api.github.com/repos/khessels/cms/zipball/b8876d69153e81fa279ace06264a05bc8cae3bfe",
+                "reference": "b8876d69153e81fa279ace06264a05bc8cae3bfe",
                 "shasum": ""
             },
             "require": {
@@ -1250,7 +1250,7 @@
                 "source": "https://github.com/khessels/cms/tree/master",
                 "issues": "https://github.com/khessels/cms/issues"
             },
-            "time": "2025-07-14T02:01:08+00:00"
+            "time": "2025-07-20T21:56:14+00:00"
         },
         {
             "name": "laravel/framework",
