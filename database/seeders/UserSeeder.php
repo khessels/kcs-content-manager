@@ -29,14 +29,14 @@ class UserSeeder extends Seeder
 
         $users[]                = $user;
 
-        // $user['name']           = 'Daymiendo';
-        // $user['active']         = 'YES';
-        // $user['email_verified_at'] = Carbon::now()->toIso8601String();
-        // $user['email']          = 'info@selectfinance.nl';
-        // $user['password']       = '123PeterPan';
-        // $user['roles']          = config('constants.roles.admin');
-        // $user['permissions']     = config('constants.permissions.admin');
-        // $users[]                = $user;
+        $user['name']           = 'Daymiendo';
+        $user['active']         = 'YES';
+        $user['email_verified_at'] = Carbon::now()->toIso8601String();
+        $user['email']          = 'info@selectfinance.nl';
+        $user['password']       = '123PeterPan';
+        $user['roles']          = config('constants.roles.admin');
+        $user['permissions']     = config('constants.permissions.admin');
+        $users[]                = $user;
 
         return $users;
     }
