@@ -5,14 +5,21 @@
     "description": "Content management for multilingual applications.",
     "keywords": ["laravel", "framework"],
     "license": "MIT",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/khessels/cms.git"
+        }
+    ],
     "require": {
-        "php": "^8.3",
-        "laravel/framework": "^11.31",
+        "php": "^8.4",
+        "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "league/flysystem-aws-s3-v3": "^3.0",
         "spatie/laravel-pdf": "^1.5",
-        "spatie/laravel-permission": "^6.10"
+        "spatie/laravel-permission": "^6.10",
+        "khessels/cms": "dev-master"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

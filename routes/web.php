@@ -7,14 +7,14 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ResourceController;
 use Illuminate\Support\Facades\Route;
-//Route::group(['middleware' => ['web']], function () {
+Route::group(['middleware' => ['web', 'language']], function () {
     Route::get('/', function () {
         return view('welcome');
     });
 
-    Route::post('/language/switch', [LanguagesController::class, 'languageSwitch'])->name('post.language.switch');
 
-    Route::middleware(['auth', 'verified'])->group(function () {
+    Route::group(['middleware' => ['auth', 'verified']], function () {
+    //Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/dashboard', [PageController::class, 'dashboard'])->name('dashboard');
         Route::get('/applications', [ApplicationController::class, 'view'])->name('view.applications');
         Route::get('/resources', [ResourceController::class, 'view'])->name('view.resources');
@@ -51,7 +51,7 @@ use Illuminate\Support\Facades\Route;
         });
     });
 
-//});
+});
 
 
 require __DIR__.'/auth.php';
