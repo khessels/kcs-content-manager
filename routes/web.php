@@ -50,8 +50,8 @@ Route::group(['middleware' => ['web', 'language']], function () {
             Route::delete('/', [ProfileController::class, 'destroy'])->name('profile.destroy');
         });
     });
-
+    require __DIR__.'/auth.php';
 });
 
 
-require __DIR__.'/auth.php';
+
