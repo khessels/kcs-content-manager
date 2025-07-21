@@ -28,7 +28,7 @@ class validateAppToken
 
         $baseClass = class_basename( $app);
         if ( $baseClass !== 'App') {
-            throw new NotFoundHttpException('Not am App Token');
+            throw new NotFoundHttpException('Not an App Token');
         }
         $request->merge( [ 'app' => $app]);
         return $next( $request);

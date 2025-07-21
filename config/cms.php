@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'enabled'                       => (int) env('CMS_ENABLED', 1),
     'token'                         => env('CMS_TOKEN', ''),
     'app'                           => env('CMS_APP', ''),
     'dev'                           => env('CMS_DEV', ''),
@@ -10,9 +11,9 @@ return [
     'backup'                        => (int) env('CMS_BACKUP', 0),
     'backup_count'                  => (int) env('CMS_BACKUP_COUNT', 10),
 
-    'image_management'              => (int) env('CMS_IMAGE_MANAGEMENT', 0),
-    'document_management'           => (int) env('CMS_DOCUMENTS_MANAGEMENT', 0),
-    'content_management'            => (int) env('CMS_CONTENT_MANAGEMENT', 0),
+    'image_management'              => (int) env('CMS_IMAGE_MANAGEMENT', 1),
+    'document_management'           => (int) env('CMS_DOCUMENTS_MANAGEMENT', 1),
+    'content_management'            => (int) env('CMS_CONTENT_MANAGEMENT', 1),
 
     'images_disks'                  => explode(',', env('CMS_IMAGES_DISKS', 'public')),
     'content_disks'                 => explode(',', env('CMS_CONTENT_DISKS', 'public')),

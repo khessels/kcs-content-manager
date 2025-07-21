@@ -30,7 +30,7 @@ Route::post('/expressions', [ContentController::class, 'addExpressions'])->middl
 Route::get('/production/content', [ContentController::class, 'listProduction']);
 Route::delete('/database', [ContentController::class, 'db_delete'])->middleware(['auth:sanctum', 'validateAppToken']);
 Route::patch('/tag/direct/{app}/{id}', [ContentController::class, 'updateTagDirect'])->middleware(['auth:sanctum', 'validateAppToken'])->middleware(['auth:sanctum', 'validateAppToken']);
-Route::post('/helo', [ContentController::class, 'helo'])->middleware(['auth:sanctum']);
+Route::post('/helo', [ContentController::class, 'helo'])->middleware(['auth:sanctum', 'validateAppToken']);
 
 Route::post('/page', [PageController::class, 'add_page'])->middleware(['auth:sanctum', 'validateAppToken']);
 Route::delete('/page/{page}', [PageController::class, 'remove_page'])->middleware(['auth:sanctum', 'validateAppToken']);
