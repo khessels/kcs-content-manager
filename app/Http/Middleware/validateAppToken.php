@@ -22,7 +22,6 @@ class validateAppToken
         $token = PersonalAccessToken::findToken( $request->bearerToken());
         $app = $token->tokenable;
         if (! $app) {
-
             throw new UnauthorizedHttpException('App Token Not Found');
         }
 

@@ -12,7 +12,6 @@ Route::group(['middleware' => ['web', 'language']], function () {
         return view('welcome');
     });
 
-
     Route::group(['middleware' => ['auth', 'verified']], function () {
     //Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/dashboard', [PageController::class, 'dashboard'])->name('dashboard');
@@ -40,7 +39,6 @@ Route::group(['middleware' => ['web', 'language']], function () {
         Route::group(['prefix' => 'tokens'], function () {
             Route::delete('/', [ApplicationController::class, 'deleteTokens'])->name('tokens.list');
         });
-
     });
 
     Route::middleware('auth')->group(function () {

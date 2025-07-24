@@ -10,23 +10,23 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <div class="row">
                         <div class="col-4">
-                            @c(['key' => 'App']):
+                            @c(['mimetype' => 'text\html', 'key' => 'App']):
                             <select id="app" name="app">
-                                <option value="">@c(['key' => 'select'])</option>
+                                <option value="">@c(['mimetype' => 'text\html', 'key' => 'select'])</option>
                                 @foreach( $apps as $app)
                                     <option {{ ! empty( $filters['app']) ? (strtolower( $app->name) == strtolower( $filters['app']) ? 'selected' : '') : ''}} value="{{ $app->name }}">{{ $app->name }}</option>
                                 @endforeach
                             </select>
-                            <input type="text" class="form-control" name="app_description" id="app_description" placeholder="@c(['key' => 'description'])">
-                            <button class="btn btn-primary create-app-token">@c(['key' => 'Create'])</button>
+                            <input type="text" class="form-control" name="app_description" id="app_description" placeholder="@c(['mimetype' => 'text\html', 'key' => 'description'])">
+                            <button class="btn btn-primary create-app-token">@c(['mimetype' => 'text\html', 'key' => 'Create'])</button>
                         </div>
                         <div class="col-4">
-                            @c(['key' => 'User']):
-                            <input type="text" class="form-control " disabled name="user_description" id="user_description" placeholder="@c(['key' => 'description'])">
-                            <button class="btn btn-primary create-user-token disabled">@c(['key' => 'Create'])</button>
+                            @c(['mimetype' => 'text\html', 'key' => 'User']):
+                            <input type="text" class="form-control " disabled name="user_description" id="user_description" placeholder="@c(['mimetype' => 'text\html', 'key' => 'description'])">
+                            <button class="btn btn-primary create-user-token disabled">@c(['mimetype' => 'text\html', 'key' => 'Create'])</button>
                         </div>
                         <div class="col-4">
-                            <label>@c(['key' => 'token', 'default'=> 'Token'])</label>
+                            <label>@c(['mimetype' => 'text\html', 'key' => 'token', 'default'=> 'Token'])</label>
                             <span id="token"></span>
                         </div>
                     </div>
