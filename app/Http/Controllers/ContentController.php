@@ -62,60 +62,70 @@ class ContentController extends Controller
         foreach( $records as $record){
             $content = new Content( $record);
             $content->app = $app;
+            $content->expire_at = null;
             if( ! empty( $record['expire_at'])){
                 $content->expire_at = date('Y-m-d H:i:s', strtotime($record['expire_at']));
             }
-            if( ! empty( $record['publish_at'])){
-                $content->publish_at = date('Y-m-d H:i:s', strtotime($record['publish_at']));
+            $content->page = null;
+            if( ! empty( $record['page'])){
+                $content->page = $record['page'];
             }
-            if( ! empty( $record['env_source'])){
-                $content->env_source = $record['env_source'];
-            }else{
-                $content->env_source = 'local';
-            }
-            if( ! empty( $record['env'])){
-                $content->env = $record['env'];
-            }else{
-                $content->env = 'local';
-            }
-            if( ! empty( $record['language'])){
-                $content->language = $record['language'];
-            }else{
-                $content->language = 'en';
-            }
-            if( ! empty( $record['mimetype'])){
-                $content->mimetype = $record['mimetype'];
-            }else{
-                $content->mimetype = 'text/plain';
-            }
-            if( ! empty( $record['status'])){
-                $content->status = $record['status'];
-            }else{
-                $content->status = 'ACTIVE';
-            }
-            if( ! empty( $record['user_id'])){
-                $content->user_id = (int)$record['user_id'];
-            }
-            if( ! empty( $record['key'])){
-                $content->key = $record['key'];
-            }else{
-                return response('ERROR: Key is required', 400);
-            }
-            if( ! empty( $record['value'])){
-                $content->value = $record['value'];
-            }
+            $content->data = null;
             if( ! empty( $record['data'])){
                 $content->data = $record['data'];
             }
-            if( ! empty( $record['default'])){
-                $content->data = $record['default'];
+            $content->publish_at = null;
+            if( ! empty( $record['publish_at'])){
+                $content->publish_at = date('Y-m-d H:i:s', strtotime($record['publish_at']));
             }
-
+            $content->env_source = 'local';
+            if( ! empty( $record['env_source'])){
+                $content->env_source = $record['env_source'];
+            }
+            $content->env = 'local';
+            if( ! empty( $record['env'])){
+                $content->env = $record['env'];
+            }
+            $content->language = null;
+            if( ! empty( $record['language'])){
+                $content->language = $record['language'];
+            }
+            $content->mimetype = 'text/plain';
+            if( ! empty( $record['mimetype'])){
+                $content->mimetype = $record['mimetype'];
+            }
+            $content->status = 'ACTIVE';
+            if( ! empty( $record['status'])){
+                $content->status = $record['status'];
+            }
+            $content->user_id = null;
+            if( ! empty( $record['user_id'])){
+                $content->user_id = (int)$record['user_id'];
+            }
+            $content->key = null;
+            if( ! empty( $record['key'])){
+                $content->key = $record['key'];
+            }
+            $content->value = null;
+            if( ! empty( $record['value'])){
+                $content->value = $record['value'];
+            }
+            $content->default = null;
+            if( ! empty( $record['default'])){
+                $content->default = $record['default'];
+            }
+            $content->last_seen = null;
+            if( ! empty( $record['last_seen'])){
+                $content->last_seen = $record['last_seen'];
+            }
             // check for existing content with the same key, app, and language
             Content::updateOrCreate(
-                ['key' => $content->key, 'app' => $content->app, 'language' => $content->language],
+                ['key' => $content->key, 'app' => $content->app, 'page' => $content->page, 'language' => $content->language],
                 [
                     'value' => $content->value,
+                    'data' => $content->data,
+                    'default' => $content->default,
+                    'last_seen' => $content->last_seen,
                     'env_source' => $content->env_source,
                     'env' => $content->env,
                     'mimetype' => $content->mimetype,

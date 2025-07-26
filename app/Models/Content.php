@@ -37,7 +37,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Content extends Model
 {
-	protected $table = 'content';
+    public mixed $default;
+    protected $table = 'content';
 
 	protected $casts = [
 		'parent_id' => 'int',
@@ -51,15 +52,16 @@ class Content extends Model
 		'parent_id',
 		'user_id',
         'app',
+        'data',
 		'status',
 		'page',
+        'default',
 		'language',
 		'key',
 		'value',
         'default',
         'env',
         'env_source',
-		'data',
 		'mimetype',
 		'publish_at',
 		'expire_at'
