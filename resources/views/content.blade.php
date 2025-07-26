@@ -184,10 +184,10 @@
                                 </td>
                                 <td>
                                     @if( $item->mimetype === 'text/plain')
-                                        <input type="text" class="form-control text-plain value id_{{ $item->id }}" data-id="{{ $item->id }}" data-mimetype="text/plain" data-value="{{ $item->value }}" value="{{ is_null($item->value) ? $item->default : $item->value }}">
+                                        <input type="text" class="form-control text-plain value id_{{ $item->id }}" data-id="{{ $item->id }}" data-mimetype="text/plain" data-value="{{ $item->value }}" value="{{ is_null($item->value) ? ! empty( $item->default) ? $item->default : '' : $item->value }}">
                                     @endif
                                     @if( $item->mimetype === 'text/html')
-                                        <textarea rows="1" class="form-control txt-html value id_{{ $item->id }}" data-id="{{ $item->id }}" data-mimetype="text/html" data-value="{{ $item->value }}">{{ is_null($item->value) ? html_entity_decode($item->default) : html_entity_decode($item->value) }}</textarea>
+                                        <textarea rows="1" class="form-control txt-html value id_{{ $item->id }}" data-id="{{ $item->id }}" data-mimetype="text/html" data-value="{{ $item->value }}">{{ is_null($item->value) ? ! empty( $item->default) ? html_entity_decode( $item->default): '' : html_entity_decode( $item->value) }}</textarea>
                                     @endif
                                     @if( in_array( strtolower($item->mimetype), ['image/jpg', 'image/jpeg', 'image/png', 'image/svg', 'image/webp',]))
                                         <label class="id_{{ $item->id }}">Original: {{ $item->value }}</label>
