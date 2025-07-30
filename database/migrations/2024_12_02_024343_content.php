@@ -29,8 +29,8 @@ return new class extends Migration
             $table->string( 'key')->nullable(false);
             $table->text( 'value')->nullable(true);
             $table->text( 'default')->nullable(true);
-            $table->string( 'alt')->nullable(true);
-            $table->string( 'title')->nullable(true);
+//            $table->string( 'alt')->nullable(true);
+//            $table->string( 'title')->nullable(true);
             $table->json( 'data')->nullable(true);
             $table->string( 'mimetype')->nullable(false)->default('text/plain');
             $table->enum( 'env', ['local','production'])->nullable(false)->default('local');
