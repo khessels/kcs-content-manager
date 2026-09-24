@@ -99,6 +99,11 @@ class AppsSeeder extends Seeder
         $app['status']  = 'Active';
         $apps[] = $app;
 
+        $app['user_id'] = 15;
+        $app['name']    = 'PCB Shop';
+        $app['status']  = 'Active';
+        $apps[] = $app;
+
         foreach( $apps as $app){
             App::create( $app );
         }
@@ -188,12 +193,18 @@ class AppsSeeder extends Seeder
         $kv['value'] = 'en,es';
         $kv['app_id'] = 14;
         $kvs[] = $kv;
+
+        $kv['topic'] = 'config';
+        $kv['key'] = 'available_locales';
+        $kv['value'] = 'en,es';
+        $kv['app_id'] = 15;
+        $kvs[] = $kv;
         foreach( $kvs as $kv){
             AppKvStore::create( $kv);
         }
 
-        $appUsers = [];
-        $appUser['user_id'] = 1;
-        $appUsers['id'] = 1;
+//        $appUsers = [];
+//        $appUser['user_id'] = 1;
+//        $appUsers['id'] = 1;
     }
 }

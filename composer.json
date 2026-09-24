@@ -9,6 +9,10 @@
         {
             "type": "vcs",
             "url": "https://github.com/khessels/cms.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/khessels/response-format.git"
         }
     ],
     "require": {
@@ -19,6 +23,7 @@
         "league/flysystem-aws-s3-v3": "^3.0",
         "spatie/laravel-pdf": "^1.5",
         "spatie/laravel-permission": "^6.10",
+        "khessels/response-format": "dev-master",
         "khessels/cms": "dev-master"
     },
     "require-dev": {
