@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\App;
 use App\Models\AppKvStore;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class AppsSeeder extends Seeder
@@ -17,95 +16,96 @@ class AppsSeeder extends Seeder
         $apps = [];
         $app['id'] = 1;
         $app['user_id'] = 1;
-        $app['name']    = 'VendiFill';
-        $app['status']  = 'Active';
+        $app['name'] = 'VendiFill';
+        $app['status'] = 'Active';
         $apps[] = $app;
 
         $app['id'] = 2;
         $app['user_id'] = 2;
-        $app['name']    = 'Select Finance';
-        $app['status']  = 'Active';
+        $app['name'] = 'Select Finance';
+        $app['status'] = 'Active';
         $apps[] = $app;
 
         $app['id'] = 3;
         $app['user_id'] = 2;
-        $app['name']    = 'iframe lease calculator';
-        $app['status']  = 'Active';
+        $app['name'] = 'iframe lease calculator';
+        $app['status'] = 'Active';
         $apps[] = $app;
 
         $app['id'] = 4;
         $app['user_id'] = 2;
-        $app['name']    = 'iframe lease products';
-        $app['status']  = 'Active';
+        $app['name'] = 'iframe lease products';
+        $app['status'] = 'Active';
         $apps[] = $app;
 
         $app['id'] = 5;
         $app['user_id'] = 2;
-        $app['name']    = 'iframe lease product details';
-        $app['status']  = 'Active';
+        $app['name'] = 'iframe lease product details';
+        $app['status'] = 'Active';
         $apps[] = $app;
 
         $app['id'] = 6;
         $app['user_id'] = 2;
-        $app['name']    = 'offshore';
-        $app['status']  = 'Active';
+        $app['name'] = 'offshore';
+        $app['status'] = 'Active';
         $apps[] = $app;
 
         $app['id'] = 7;
         $app['user_id'] = 1;
-        $app['name']    = 'Cleaning';
-        $app['status']  = 'Active';
+        $app['name'] = 'Cleaning';
+        $app['status'] = 'Active';
         $apps[] = $app;
 
         $app['id'] = 8;
         $app['user_id'] = 1;
-        $app['name']    = 'lamigracion';
-        $app['status']  = 'Active';
+        $app['name'] = 'lamigracion';
+        $app['status'] = 'Active';
         $apps[] = $app;
 
         $app['id'] = 9;
         $app['user_id'] = 1;
-        $app['name']    = 'offshore2';
-        $app['status']  = 'Active';
+        $app['name'] = 'offshore2';
+        $app['status'] = 'Active';
         $apps[] = $app;
 
         $app['id'] = 10;
         $app['user_id'] = 1;
-        $app['name']    = 'travel';
-        $app['status']  = 'Active';
+        $app['name'] = 'travel';
+        $app['status'] = 'Active';
         $apps[] = $app;
 
         $app['id'] = 11;
         $app['user_id'] = 1;
-        $app['name']    = 'myshop2';
-        $app['status']  = 'Active';
+        $app['name'] = 'myshop2';
+        $app['status'] = 'Active';
         $apps[] = $app;
 
         $app['id'] = 12;
         $app['user_id'] = 1;
-        $app['name']    = 'batavia';
-        $app['status']  = 'Active';
+        $app['name'] = 'batavia';
+        $app['status'] = 'Active';
         $apps[] = $app;
 
         $app['id'] = 13;
         $app['user_id'] = 1;
-        $app['name']    = 'cm-composer';
-        $app['status']  = 'Active';
+        $app['name'] = 'cm-composer';
+        $app['status'] = 'Active';
         $apps[] = $app;
 
         $app['id'] = 14;
         $app['user_id'] = 1;
-        $app['name']    = 'KCS Content Manager';
-        $app['status']  = 'Active';
+        $app['name'] = 'KCS Content Manager';
+        $app['status'] = 'Active';
         $apps[] = $app;
 
-        $app['user_id'] = 15;
-        $app['name']    = 'PCB Shop';
-        $app['status']  = 'Active';
+        $app['id'] = 15;
+        $app['user_id'] = 1;
+        $app['name'] = 'PCB Shop';
+        $app['status'] = 'Active';
         $apps[] = $app;
 
-        foreach( $apps as $app){
-            App::create( $app );
+        foreach ($apps as $app) {
+            App::create($app);
         }
 
         $kvs = [];
@@ -199,12 +199,12 @@ class AppsSeeder extends Seeder
         $kv['value'] = 'en,es';
         $kv['app_id'] = 15;
         $kvs[] = $kv;
-        foreach( $kvs as $kv){
-            AppKvStore::create( $kv);
+        foreach ($kvs as $kv) {
+            AppKvStore::create($kv);
         }
 
-//        $appUsers = [];
-//        $appUser['user_id'] = 1;
-//        $appUsers['id'] = 1;
+        //        $appUsers = [];
+        //        $appUser['user_id'] = 1;
+        //        $appUsers['id'] = 1;
     }
 }
